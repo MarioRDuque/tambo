@@ -1,12 +1,13 @@
 import { NgModule, Component, Pipe, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {BrowserModule} from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 import { AuthService } from './servicios/auth.service';
 import { ApiRequestService } from './servicios/api-request.service';
 import { ToastrService } from 'ngx-toastr';
-import { HomeService } from './servicios/home.service';
+
+import {AngularIndexedDB} from 'angular2-indexeddb';
 
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -28,12 +29,21 @@ export class ModalLogin implements OnInit {
     public apiService: ApiRequestService,
     public authService: AuthService,
     public toastr: ToastrService
-  ) { }
+  ) {
+    let db = new AngularIndexedDB('myDb', 1);
+  }
 
   ngOnInit() {
     if(this.authService.hayToken()){
       this.activeModal.close();
     }
+    let db = new AngularIndexedDB('myDb', 1);
+    db.openDatabase(1, (evt) => {
+      let objectStore = evt.currentTarget.result.createObjectStore(
+        'people', { keyPath: "id", autoIncrement: true });
+      objectStore.createIndex("name", "name", { unique: false });
+      objectStore.createIndex("email", "email", { unique: true });
+    });
   }
 
   ingresar() {
@@ -86,7 +96,6 @@ export class AppComponent {
     public modalService: NgbModal,
     public router: Router,
     public authService: AuthService,
-    public homeService: HomeService,
     public toastr: ToastrService
   ) {
   }

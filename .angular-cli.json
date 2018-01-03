@@ -25,7 +25,9 @@
         "styles.css",
         "../node_modules/ngx-toastr/toastr.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/angular2-indexeddb/angular2-indexeddb.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

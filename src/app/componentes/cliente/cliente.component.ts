@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, NgZone, ElementRef, NgModule } from '@angular/core';
-import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Paginacion } from '../../entidades/entidad.paginacion';
 import { ToastrService } from 'ngx-toastr';
 import { ChangeDetectorRef} from '@angular/core';
 import { SourceCodeService } from '../../source-code.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import{ ModalConfirmacionComponent } from './../../componentes/modal-confirmacion.component';
 import { NguiMapModule } from '@ngui/map';
 import { } from 'googlemaps';
 
@@ -56,7 +57,8 @@ export class ClienteComponent implements OnInit {
               private apiRequest: ApiRequestService,
               private toastr: ToastrService,
               private ref: ChangeDetectorRef,
-              public sc: SourceCodeService
+              public sc: SourceCodeService,
+              private modalService: NgbModal,
               ) {
     sc.getText('PlacesAutoCompleteComponent').subscribe(text => this.code = text);
     sc.getText('SimpleMarkerComponent').subscribe(text => this.code = text);
@@ -66,7 +68,8 @@ export class ClienteComponent implements OnInit {
   ngOnInit() {
     this.traerClientes();
     this.traerTipoDocs();
-    this.traerUbigeos('distrito',null);
+    let distritos = JSON.parse(localStorage.getItem("distritos"));
+    distritos ? this.distritos = distritos : this.traerUbigeos('distrito',null);
   }
 
   log(event, str) {
@@ -81,15 +84,20 @@ export class ClienteComponent implements OnInit {
   }
 
   traerTipoDocs(){
-    return this.apiRequest.post('tipodocumento/pagina/'+this.page+'/cantidadPorPagina/'+this.paginacion.cantidadPorPagina, {})
-      .then(
-        data => {
-          if(data){
-            this.tipoDocs = data.registros;
+    let tipoDocs = JSON.parse(localStorage.getItem("tiposDocumento"));
+    if(tipoDocs && tipoDocs.length>0){
+      this.tipoDocs = tipoDocs;
+    } else {
+      return this.apiRequest.post('tipodocumento/pagina/'+this.page+'/cantidadPorPagina/'+this.paginacion.cantidadPorPagina, {})
+        .then(
+          data => {
+            if(data){
+              this.tipoDocs = data.registros;
+            }
           }
-        }
-      )
-      .catch(err => this.handleError(err));
+        )
+        .catch(err => this.handleError(err));
+    }
   }
 
   busqueda(): void {
@@ -124,6 +132,10 @@ export class ClienteComponent implements OnInit {
   }
 
   traerUbigeos(nombre, padre) {
+    let centros = JSON.parse(localStorage.getItem("centros"));
+    if(centros){
+      this.centros = centros;
+    }
     return this.apiRequest.post('ubigeo/listar', {padre:padre})
       .then(
         data => {
@@ -162,6 +174,32 @@ export class ClienteComponent implements OnInit {
           else{
             this.toastr.info(data.operacionMensaje,"Informacion");
             this.vistaFormulario = false;
+          }
+        }
+      )
+      .catch(err => this.handleError(err));
+  }
+
+  confirmarEliminacion(cliente):void{
+    const modalRef = this.modalService.open(ModalConfirmacionComponent);
+    modalRef.result.then((result) => {
+      this.eliminarCliente(cliente);
+    }, (reason) => {
+    });
+  }
+
+  eliminarCliente(cliente){
+    this.solicitando = true;
+    return this.apiRequest.post('cliente/eliminar', {id:cliente.id})
+      .then(
+        data => {
+          if(data && data.extraInfo){
+            this.solicitando = false;
+            this.cliente = data.extraInfo;
+            this.clientes.splice(this.clientes.indexOf(cliente),1);
+          }
+          else{
+            this.toastr.info(data.operacionMensaje,"Informacion");
           }
         }
       )

@@ -42,7 +42,7 @@
                 <td>{{cliente.idpersona.numdocumento}}</td>
                 <td>{{cliente.idpersona.nombrecompleto}}</td>
                 <td style="padding-top: 0px; padding-bottom: 0px;">
-                  <i class="material-icons md-48 cursor-pointer text-danger" title="eliminar">delete</i>
+                  <i class="material-icons md-48 cursor-pointer text-danger" title="eliminar" (click)="confirmarEliminacion(cliente)">delete</i>
                   <i class="material-icons md-48 cursor-pointer text-primary" title="editar" (click)="editarCliente(cliente.id)">create</i>
                 </td>
               </tr>
@@ -81,8 +81,7 @@
         <div class="form-group col-md-6">
           <label class="col-form-label">Numero de documento <span class="text-primary">*</span> </label>
           <input type="number" id="numdocumento"  name="numdocumento" class="form-control" placeholder="¿Cual es el numero de documento?" [(ngModel)]="cliente.idpersona.numdocumento"
-                 min="0" max="99999999999" onKeyUp="if(this.value>99999999999){this.value='99999999999';}else if(this.value<0){this.value='0';}"
-                 required>
+                 min="0" max="99999999999" required>
         </div>
       </div>
       <div class="form-row">

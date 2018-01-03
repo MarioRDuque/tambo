@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs';
 import { ApiRequestService } from '../servicios/api-request.service';
+import { HomeService } from '../servicios/home.service';
 import 'rxjs/add/operator/toPromise';
 
 export interface AuthSolicitudParam {
@@ -34,7 +35,8 @@ export class AuthService {
 
     constructor(
         private router: Router,
-        private apiRequest: ApiRequestService
+        private apiRequest: ApiRequestService,
+        private homeService: HomeService
     ) { }
 
     ingresar(username: string, password: string): Promise<AuthRespuesta> {
@@ -58,6 +60,7 @@ export class AuthService {
                         }
                     };
                     this.almacenamiento.setItem(this.usuarioActualKey, JSON.stringify(authRespuesta.user));
+                    this.homeService.guardarTiposEnStorage();
                 }
                 else {
                     this.cerrarSession();
