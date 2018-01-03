@@ -6,9 +6,6 @@ import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators, F
 import { AuthService } from './servicios/auth.service';
 import { ApiRequestService } from './servicios/api-request.service';
 import { ToastrService } from 'ngx-toastr';
-
-import {AngularIndexedDB} from 'angular2-indexeddb';
-
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -30,20 +27,20 @@ export class ModalLogin implements OnInit {
     public authService: AuthService,
     public toastr: ToastrService
   ) {
-    let db = new AngularIndexedDB('myDb', 1);
+    //let db = new AngularIndexedDB('myDb', 1);
   }
 
   ngOnInit() {
     if(this.authService.hayToken()){
       this.activeModal.close();
     }
-    let db = new AngularIndexedDB('myDb', 1);
+    /*let db = new AngularIndexedDB('myDb', 1);
     db.openDatabase(1, (evt) => {
       let objectStore = evt.currentTarget.result.createObjectStore(
         'people', { keyPath: "id", autoIncrement: true });
       objectStore.createIndex("name", "name", { unique: false });
       objectStore.createIndex("email", "email", { unique: true });
-    });
+    });*/
   }
 
   ingresar() {
