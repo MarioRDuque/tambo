@@ -1,0 +1,80 @@
+<div class="bg-breadcrumb" style="height: 20px; padding: 20px;">
+  <div class="row justify-content-center card-bonito mt-3" *ngIf="solicitando" style="margin-bottom: 20px;">
+    <div class="col col-auto">
+      <p class="text-primary text-center">Obteniendo Eventos</p>
+      <app-cargando></app-cargando>
+    </div>
+  </div>
+  <div *ngIf="!solicitando" class="card-bonito" style="margin-bottom: 20px;">
+    <p class="text-primary text-center pt-3" *ngIf="(!pedidos || pedidos.length === 0) && solicitudExitosa">No se encontraron resultados</p>
+    <div class="row pb-3 pt-3" [class.justify-content-center]="!eventos || !solicitudExitosa">
+      <div class="col-md-2 col-sm-12">
+        <button class="btn btn-primary" (click)="nuevoPedido()">Nuevo Pedido</button>
+      </div>
+      <div class="col-md-10 col-sm-12">
+        <div class="row">
+          <div class="col-md-5 col-sm-12">
+            <div class="input-group">
+              <input class="form-control" placeholder="Desde(yyyy-mm-dd)" name="d" [(ngModel)]="desde" ngbDatepicker #d="ngbDatepicker">
+              <button class="input-group-addon cursor-pointer" (click)="d.toggle()" type="button">
+                <i class="material-icons">today</i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-12">
+            <div class="input-group">
+              <input class="form-control" placeholder="Hasta(yyyy-mm-dd)" name="d1" [(ngModel)]="hasta" ngbDatepicker #d1="ngbDatepicker">
+              <button class="input-group-addon cursor-pointer" (click)="d1.toggle()" type="button">
+                <i class="material-icons">today</i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-2 col-sm-12">
+            <div class="input-group">
+              <button class="input-group-addon cursor-pointer" (click)="busqueda()" type="button">
+                <i class="material-icons">search</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="pedidos && pedidos.length > 0">
+      <div class="row">
+        <div class="col table-responsive">
+          <table class="table table-sigro table-hover">
+            <thead class="thead-inverse">
+            <tr>
+              <th>Código</th>
+              <th>Descripcion</th>
+              <th>Cliente</th>
+              <th>Fecha Pedido</th>
+              <th>Estado</th>
+              <th>Direccion</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="cursor-pointer" *ngFor="let pedido of pedidos" routerLink="/pedidos/seguimiento/{{pedido.codigo}}">
+              <td>{{pedido.codigo}}</td>
+              <td>{{pedido.descripcion}}</td>
+              <td>{{pedido.cliente}}</td>
+              <td>{{pedido.fechaPedido | date:"dd/MM/yyyy"}}</td>
+              <td>{{pedido.fechaEntrega ? "ENTREGADO" : "POR ENTREGAR"}}</td>
+              <td>{{pedido.direccion}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row align-items-center mb-3">
+        <div class="col">
+          <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
+        </div>
+        <div class="text-right padding-right-15">
+          <ngb-pagination style="margin-bottom: 0px;" class="ngb-pagination-sigro" [collectionSize]="paginacion.totalRegistros" [(page)]="page" [maxSize]="1" [boundaryLinks]="true" (pageChange)="traerEventos()"></ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

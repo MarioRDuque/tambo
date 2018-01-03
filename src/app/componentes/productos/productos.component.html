@@ -1,0 +1,110 @@
+<div class="bg-breadcrumb" style="height: 20px; padding: 20px;">
+  <div class="modal-header card-bonito" style="padding: 10px!important;">
+    <h5 class="modal-title">Agregar producto</h5>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body card-bonito">
+
+    <div class="row justify-content-center" *ngIf="solicitando">
+      <div class="col col-auto">
+        <p class="text-primary text-center">Cargando...</p>
+        <app-cargando></app-cargando>
+      </div>
+    </div>
+
+    <div class="form-row" *ngIf="!vistaFormulario && !solicitando">
+      <div class="form-group col-md-8">
+      </div>
+      <div class="form-group col-md-4">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Busque producto" [(ngModel)]="producto.cdescor" maxlength="150" id="cdescor"
+                 name="cdescor" required>
+          <button class="input-group-addon" type="button" style="padding: 1px 6px;">
+            <i class="material-icons md-18 cursor-pointer">search</i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: right">
+      <button class="btn btn-primary" (click)="vistaFormulario = true">Agregar Producto</button>
+    </div>
+
+    <div *ngIf="!vistaFormulario && !solicitando">
+      <br>
+      <div class="row">
+        <div class="col table-responsive">
+          <table class="table table-sigro table-hover">
+            <thead class="thead-inverse">
+            <tr>
+              <th>Nombre.</th>
+              <th>Unidad.</th>
+              <th>Precio</th>
+              <th style="width:30px;">Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="cursor-pointer" (click)="activeModal.dismiss(producto)" *ngFor="let producto of productos">
+              <td>{{producto.nombre}}</td>
+              <td>{{producto.idunidad ? producto.idunidad.descripcion : ''}}</td>
+              <td>{{producto.precioventa}}</td>
+              <td style="padding-top: 0px; padding-bottom: 0px;">
+                <i class="material-icons md-48 cursor-pointer text-danger" title="eliminar">delete</i>
+                <i class="material-icons md-48 cursor-pointer text-primary" title="editar">create</i>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row align-items-center mb-3">
+        <div class="col">
+          <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
+        </div>
+        <div class="text-right padding-right-15">
+          <ngb-pagination style="margin-bottom: 0px;" class="ngb-pagination-sigro" [collectionSize]="paginacion.totalRegistros" [(page)]="page" [maxSize]="1" [boundaryLinks]="true" (pageChange)="traerProductos()"></ngb-pagination>
+        </div>
+      </div>
+    </div>
+
+    <form #productoForm="ngForm" *ngIf="vistaFormulario && !solicitando">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="nombre" class="col-form-label">Nombre <span class="text-primary">*</span></label>
+          <input type="text" id="nombre"  name="nombre" class="form-control" placeholder="¿Cual es el nombre del producto?" [(ngModel)]="producto.nombre" maxlength="100" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="unidad" class="col-form-label">Unidad de medida <span class="text-primary">*</span></label>
+          <select class="form-control" id="unidad" name="unidad" [(ngModel)]="producto.idunidad" required>
+            <option *ngFor="let unidad of unidades" [ngValue]="unidad">
+              {{ unidad.descripcion }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label class="col-form-label">Precio unitario <span class="text-primary">*</span></label>
+          <input type="number" class="form-control" id="precio" name="precio" placeholder="¿Cual es el precio unitario?" [(ngModel)]="producto.precioventa" maxlength="12" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label class="col-form-label">Stock <span class="text-primary">*</span> </label>
+          <input type="number" class="form-control" id="stock" name="stock" placeholder="¿Cuales es el stocks?" [(ngModel)]="producto.stockmin" maxlength="10">
+        </div>
+      </div>
+
+      <div class="text-center">
+        <label class="btn btn-default">
+          <input class="btn btn-primary" type="file" name="file" [(ngModel)]="producto.file" (change)="selectFile($event)">
+        </label>
+      </div>
+      <img src="{{fileUpload}}" alt="{{fileUpload}}" style="max-width:350px"/>
+      <div style="text-align: right">
+        <button type="submit" class="btn btn-primary" [disabled]="!productoForm.form.valid" (click)="onSubmit()">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="vistaFormulario = false">Cancelar</button>
+      </div>
+    </form>
+
+  </div>
+</div>
