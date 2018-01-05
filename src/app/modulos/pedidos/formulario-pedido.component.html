@@ -6,18 +6,18 @@
   </div>
 </div>
 <div style="margin: 20px;">
+  <div class="modal-header card-bonito" style="padding: 10px!important;">
+    <h5 *ngIf="!pedido.id" class="modal-title">Nuevo Pedido</h5>
+    <h5 *ngIf="pedido.id" class="modal-title">Modificar Pedido</h5>
+  </div>
   <div class="row justify-content-center card-bonito" *ngIf="cargando" style="margin-bottom: 20px;">
     <div class="col col-auto">
       <p class="text-primary text-center">Cargando...</p>
        <app-cargando></app-cargando>
     </div>
   </div>
+
   <div *ngIf="!cargando" class="card-bonito" style="margin-bottom: 20px;">
-    <div class="row toolbar pt-3 pb-3">
-      <div class="col text-left">
-        {{titulo}}
-      </div>
-    </div>
     <form (ngSubmit)="onSubmit()" #pedidoForm="ngForm">
       <div class="row">
         <div class="col-md-12">
@@ -98,16 +98,10 @@
             </table>
         </div>
       </div>
-      <div class="row mb-3 pb-3">
-        <div class="col text-left mt-4">
-          <button class="btn btn-primary" routerLink="/pedidos/lista">Cancelar</button>
-        </div>
-        <div class="col text-right mt-4" *ngIf="!esEdicion">
-          <button type="submit" class="btn btn-primary" [disabled]="!pedidoForm.form.valid">Guardar</button>
-        </div>
-        <div class="col text-right mt-4" *ngIf="esEdicion">
-          <button type="submit" class="btn btn-primary" [disabled]="!pedidoForm.form.valid">Actualizar</button>
-        </div>
+      <div style="text-align: right" class="pt-3 pb-3">
+        <button type="submit" class="btn btn-primary" [disabled]="!pedidoForm.form.valid" *ngIf="!pedido.id">Guardar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!pedidoForm.form.valid" *ngIf="pedido.id">Actualizar</button>
+        <button type="button" class="btn btn-outline-dark" routerLink="/pedidos/lista">Cancelar</button>
       </div>
     </form>
   </div>

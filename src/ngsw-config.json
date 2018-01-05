@@ -29,5 +29,30 @@
         "/assets/**"
       ]
     }
-  }]
+  }
+  ],
+  "dataGroups": [{
+    "name": "api-freshness",
+    "urls": [
+      "/pedidos/pagina/1/cantidadPorPagina/10"
+    ],
+    "cacheConfig": {
+      "strategy": "freshness",
+      "maxSize": 100,
+      "maxAge": "3d",
+      "timeout": "10s"
+    }
+    },
+    {
+      "name": "api-performance",
+      "urls": [
+        "/productos/pagina/1/cantidadPorPagina/10"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 100,
+        "maxAge": "3d"
+      }
+    }
+  ]
 }

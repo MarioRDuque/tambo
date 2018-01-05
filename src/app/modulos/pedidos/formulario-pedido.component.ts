@@ -106,7 +106,7 @@ export class FormularioPedidoComponent implements OnInit {
     modalRef.result.then((result) => {
       this.ngOnInit();
     }, (reason) => {
-      if(reason && reason>0){
+      if(reason && reason.id){
         let detalle = {
           "idproducto":reason,
           "idpedido":this.pedido.id,

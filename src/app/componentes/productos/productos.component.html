@@ -7,7 +7,9 @@
 </div>
 <div style="margin: 20px;">
   <div class="modal-header card-bonito" style="padding: 10px!important;">
-    <h5 class="modal-title">Agregar producto</h5>
+    <h5 class="modal-title" *ngIf="!vistaFormulario">Productos</h5>
+    <h5 *ngIf="!producto.id && vistaFormulario" class="modal-title">Agregar Producto</h5>
+    <h5 *ngIf="producto.id && vistaFormulario" class="modal-title">Modificar Producto</h5>
     <button *ngIf="isModalProducto" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>

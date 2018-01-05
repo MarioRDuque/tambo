@@ -71,16 +71,10 @@
         </div>
       </div>
     </div>
-    <div class="row mb-3 mt-3 pb-3">
-      <div class="col ">
-        <button class="btn btn-primary" routerLink="/pedidos/lista">Volver al listado</button>
-      </div>
-      <div class="col text-center" *ngIf="!pedido.fechaentrega">
-        <button class="btn btn-primary" (click)="confirmarCierre('venta')">Terminar Venta</button>
-      </div>
-      <div class="col text-right">
-        <button class="btn btn-primary" (click)="confirmarCierre('voleta')">Imprimir Boleta</button>
-      </div>
+    <div style="text-align: right" class="pt-3 pb-3">
+      <button class="btn btn-primary" routerLink="/pedidos/lista">Volver al listado</button>
+      <button *ngIf="!pedido.fechaentrega" class="btn btn-primary" (click)="confirmarCierre('venta')">Terminar Venta</button>
+      <button class="btn btn-primary" (click)="confirmarCierre('voleta')">Imprimir Boleta</button>
     </div>
   </div>
 </div>
