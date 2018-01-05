@@ -10,7 +10,7 @@ export interface MenuParams {
 }
 @Injectable()
 export class HomeService {
-   almacenamiento: Storage = sessionStorage;
+   almacenamiento: Storage = localStorage;
    menuStorage: string = "menus";
 
   constructor(

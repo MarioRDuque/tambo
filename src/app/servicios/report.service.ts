@@ -23,8 +23,8 @@ export class ReportService {
 	private headers: Headers;
     private requestOptions: RequestOptions;
     private usuarioActualKey: string = "currentUser";
-    private almacenamiento: Storage = sessionStorage; 
-    private almacenamientoLocal: Storage = localStorage; 
+    private almacenamiento: Storage = localStorage;
+    private almacenamientoLocal: Storage = localStorage;
     private responseContentType: ResponseContentType;
     constructor(
         private appConfig: AppConfig,

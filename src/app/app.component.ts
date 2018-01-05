@@ -86,7 +86,6 @@ export class AppComponent {
 
   cargando:boolean=false;
   menus:any = {};
-  almacenamiento: Storage = sessionStorage;
   collapseNav = false;
 
 	constructor(

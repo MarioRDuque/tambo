@@ -22,7 +22,7 @@ export class ApiRequestService {
     private requestOptions: RequestOptions;
     private usuarioActualKey: string = "currentUser";
 
-    private almacenamiento: Storage = sessionStorage;
+    private almacenamiento: Storage = localStorage;
     private almacenamientoLocal: Storage = localStorage;
 
     constructor(

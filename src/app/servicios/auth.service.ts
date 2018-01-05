@@ -28,7 +28,7 @@ export interface AuthRespuesta {
 export class AuthService {
 
     public usuarioActualKey: string = "currentUser";
-    public almacenamiento: Storage = sessionStorage;
+    public almacenamiento: Storage = localStorage;
     public almacenamientoLocal: Storage = localStorage;
 
     public urlDestino: string = "/menu";
