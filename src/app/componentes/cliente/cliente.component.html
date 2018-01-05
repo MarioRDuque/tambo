@@ -1,8 +1,15 @@
-<div class="bg-breadcrumb" style="height: 20px; padding: 20px;">
+<div *ngIf="!isModal" class="bg-breadcrumb">
+  <div class="p-3">
+    <div class="text-right" style="color: white; font-size: 14px; font-weight: 700; cursor: pointer">
+      > Clientes
+    </div>
+  </div>
+</div>
+<div style="margin: 20px;">
   <div class="modal-header card-bonito" style="padding: 10px!important;">
     <h5 class="modal-title" *ngIf="!vistaFormulario">Clientes</h5>
     <h5 class="modal-title" *ngIf="vistaFormulario">Agregar Cliente</h5>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <button *ngIf="isModal" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -19,7 +26,7 @@
         <input type="text" class="form-control" placeholder="Ingrese nombre">
         <input type="text" class="form-control" placeholder="Ingrese dni" [(ngModel)]="numdoc">
         <button type="button" class="input-group-addon cursor-pointer" (click)="busqueda()"><i class="material-icons">search</i></button>
-        <button type="button" class="input-group-addon cursor-pointer" (click)="nuevoCliente()">Agregar</button>
+        <button type="button" class="input-group-addon cursor-pointer" (click)="nuevoCliente()"><i class="material-icons">add_circle</i> Nuevo</button>
       </div>
     </div>
 
@@ -42,8 +49,9 @@
                 <td>{{cliente.idpersona.numdocumento}}</td>
                 <td>{{cliente.idpersona.nombrecompleto}}</td>
                 <td style="padding-top: 0px; padding-bottom: 0px;">
-                  <i class="material-icons md-48 cursor-pointer text-danger" title="eliminar" (click)="confirmarEliminacion(cliente)">delete</i>
+                  <i *ngIf="!isModal" class="material-icons md-48 cursor-pointer text-danger" title="eliminar" (click)="confirmarEliminacion(cliente)">delete</i>
                   <i class="material-icons md-48 cursor-pointer text-primary" title="editar" (click)="editarCliente(cliente.id)">create</i>
+                  <i *ngIf="isModal" class="material-icons md-48 cursor-pointer text-primary" title="elegir">add_circle_outline</i>
                 </td>
               </tr>
             </tbody>

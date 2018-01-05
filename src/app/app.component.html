@@ -27,6 +27,8 @@
               <i class="material-icons" style="font-size: 15px!important;">person</i> {{authService.getUserName()}}
             </a>
           </li>
+        </ul>
+        <ul class="navbar-nav">
           <li class="nav-item" *ngIf="authService.hayToken()">
             <a class="nav-link cursor-pointer color-auth-btn" style="text-align: center" (click)="salir()">
               <i class="material-icons">power_settings_new</i>

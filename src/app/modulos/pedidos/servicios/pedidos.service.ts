@@ -61,7 +61,7 @@ export class PedidosService {
   }
 
   eliminar(id: number): Promise<any> {
-    return this.apiRequest.post('pedidos/eliminar/'+id,null)
+    return this.apiRequest.get('pedidos/eliminar/'+id)
       .then(
         jsonResp => {
           return jsonResp;

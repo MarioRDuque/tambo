@@ -92,6 +92,7 @@ export class FormularioPedidoComponent implements OnInit {
 
   abrirClientes():void{
     const modalRef = this.modalService.open(ClienteComponent, { size: 'lg', keyboard: false});
+    modalRef.componentInstance.isModal = true;
     modalRef.result.then((result) => {
       this.ngOnInit();
     }, (reason) => {
@@ -101,6 +102,7 @@ export class FormularioPedidoComponent implements OnInit {
 
   abrirProductos():void{
     const modalRef = this.modalService.open(ProductosComponent, { size: 'lg', keyboard: false});
+    modalRef.componentInstance.isModalProducto = true;
     modalRef.result.then((result) => {
       this.ngOnInit();
     }, (reason) => {

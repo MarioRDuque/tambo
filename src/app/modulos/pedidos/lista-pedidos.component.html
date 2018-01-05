@@ -1,4 +1,11 @@
-<div class="bg-breadcrumb" style="height: 20px; padding: 20px;">
+<div class="bg-breadcrumb">
+  <div class="p-3">
+    <div class="text-right" style="color: white; font-size: 14px; font-weight: 700; cursor: pointer">
+      > Pedidos > Listado
+    </div>
+  </div>
+</div>
+<div style="margin: 20px;">
   <div class="row justify-content-center card-bonito mt-3" *ngIf="solicitando" style="margin-bottom: 20px;">
     <div class="col col-auto">
       <p class="text-primary text-center">Obteniendo Eventos</p>
@@ -7,36 +14,18 @@
   </div>
   <div *ngIf="!solicitando" class="card-bonito" style="margin-bottom: 20px;">
     <p class="text-primary text-center pt-3" *ngIf="(!pedidos || pedidos.length === 0) && solicitudExitosa">No se encontraron resultados</p>
-    <div class="row pb-3 pt-3" [class.justify-content-center]="!eventos || !solicitudExitosa">
-      <div class="col-md-2 col-sm-12">
-        <button class="btn btn-primary" (click)="nuevoPedido()">Nuevo Pedido</button>
-      </div>
-      <div class="col-md-10 col-sm-12">
-        <div class="row">
-          <div class="col-md-5 col-sm-12">
-            <div class="input-group">
-              <input class="form-control" placeholder="Desde(yyyy-mm-dd)" name="d" [(ngModel)]="desde" ngbDatepicker #d="ngbDatepicker">
-              <button class="input-group-addon cursor-pointer" (click)="d.toggle()" type="button">
-                <i class="material-icons">today</i>
-              </button>
-            </div>
-          </div>
-          <div class="col-md-5 col-sm-12">
-            <div class="input-group">
-              <input class="form-control" placeholder="Hasta(yyyy-mm-dd)" name="d1" [(ngModel)]="hasta" ngbDatepicker #d1="ngbDatepicker">
-              <button class="input-group-addon cursor-pointer" (click)="d1.toggle()" type="button">
-                <i class="material-icons">today</i>
-              </button>
-            </div>
-          </div>
-          <div class="col-md-2 col-sm-12">
-            <div class="input-group">
-              <button class="input-group-addon cursor-pointer" (click)="busqueda()" type="button">
-                <i class="material-icons">search</i>
-              </button>
-            </div>
-          </div>
-        </div>
+    <div class="form-row pt-3 pb-3" *ngIf="!vistaFormulario && !solicitando">
+      <div class="input-group">
+        <input class="form-control" placeholder="Desde(yyyy-mm-dd)" name="d" [(ngModel)]="desde" ngbDatepicker #d="ngbDatepicker">
+        <button class="input-group-addon cursor-pointer" (click)="d.toggle()" type="button">
+          <i class="material-icons">today</i>
+        </button>
+        <input class="form-control" placeholder="Hasta(yyyy-mm-dd)" name="d1" [(ngModel)]="hasta" ngbDatepicker #d1="ngbDatepicker">
+        <button class="input-group-addon cursor-pointer" (click)="d1.toggle()" type="button">
+          <i class="material-icons">today</i>
+        </button>
+        <button type="button" class="input-group-addon cursor-pointer" (click)="busqueda()"><i class="material-icons">search</i></button>
+        <button type="button" class="input-group-addon cursor-pointer" (click)="nuevoPedido()"><i class="material-icons">add_circle</i> Nuevo</button>
       </div>
     </div>
     <div *ngIf="pedidos && pedidos.length > 0">

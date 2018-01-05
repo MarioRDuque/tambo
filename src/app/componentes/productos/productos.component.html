@@ -1,7 +1,14 @@
-<div class="bg-breadcrumb" style="height: 20px; padding: 20px;">
+<div *ngIf="!isModalProducto" class="bg-breadcrumb">
+  <div class="p-3">
+    <div class="text-right" style="color: white; font-size: 14px; font-weight: 700; cursor: pointer">
+      > Productos
+    </div>
+  </div>
+</div>
+<div style="margin: 20px;">
   <div class="modal-header card-bonito" style="padding: 10px!important;">
     <h5 class="modal-title">Agregar producto</h5>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <button *ngIf="isModalProducto" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -15,22 +22,13 @@
     </div>
 
     <div class="form-row" *ngIf="!vistaFormulario && !solicitando">
-      <div class="form-group col-md-8">
-      </div>
-      <div class="form-group col-md-4">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Busque producto" [(ngModel)]="producto.cdescor" maxlength="150" id="cdescor"
-                 name="cdescor" required>
-          <button class="input-group-addon" type="button" style="padding: 1px 6px;">
-            <i class="material-icons md-18 cursor-pointer">search</i>
-          </button>
-        </div>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Busque producto" [(ngModel)]="producto.cdescor" maxlength="150" id="cdescor"
+               name="cdescor" required>
+        <button class="input-group-addon" type="button"><i class="material-icons md-18 cursor-pointer">search</i></button>
+        <button type="button" class="input-group-addon cursor-pointer" (click)="vistaFormulario = true"><i class="material-icons">add_circle</i> Nuevo</button>
       </div>
     </div>
-    <div style="text-align: right">
-      <button class="btn btn-primary" (click)="vistaFormulario = true">Agregar Producto</button>
-    </div>
-
     <div *ngIf="!vistaFormulario && !solicitando">
       <br>
       <div class="row">
@@ -50,8 +48,9 @@
               <td>{{producto.idunidad ? producto.idunidad.descripcion : ''}}</td>
               <td>{{producto.precioventa}}</td>
               <td style="padding-top: 0px; padding-bottom: 0px;">
-                <i class="material-icons md-48 cursor-pointer text-danger" title="eliminar">delete</i>
-                <i class="material-icons md-48 cursor-pointer text-primary" title="editar">create</i>
+                <i *ngIf="!isModalProducto" class="material-icons md-48 cursor-pointer text-danger" (click)="confirmarEliminacion(producto)" title="eliminar">delete</i>
+                <i *ngIf="!isModalProducto" class="material-icons md-48 cursor-pointer text-primary" (click)="traerParaEdicion(producto.id)" title="editar">create</i>
+                <i *ngIf="isModalProducto" class="material-icons md-48 cursor-pointer text-primary" title="elegir">add_circle_outline</i>
               </td>
             </tr>
             </tbody>
@@ -76,8 +75,8 @@
         </div>
         <div class="form-group col-md-6">
           <label for="unidad" class="col-form-label">Unidad de medida <span class="text-primary">*</span></label>
-          <select class="form-control" id="unidad" name="unidad" [(ngModel)]="producto.idunidad" required>
-            <option *ngFor="let unidad of unidades" [ngValue]="unidad">
+          <select class="form-control" id="unidad" name="unidad" [(ngModel)]="producto.idunidad.id" required>
+            <option *ngFor="let unidad of unidades" [ngValue]="unidad.id">
               {{ unidad.descripcion }}
             </option>
           </select>
@@ -101,7 +100,8 @@
       </div>
       <img src="{{fileUpload}}" alt="{{fileUpload}}" style="max-width:350px"/>
       <div style="text-align: right">
-        <button type="submit" class="btn btn-primary" [disabled]="!productoForm.form.valid" (click)="onSubmit()">Guardar</button>
+        <button *ngIf="!producto.id" type="submit" class="btn btn-primary" [disabled]="!productoForm.form.valid" (click)="onSubmit()">Guardar</button>
+        <button *ngIf="producto.id" type="submit" class="btn btn-primary" [disabled]="!productoForm.form.valid" (click)="onSubmit()">Actualizar</button>
         <button type="button" class="btn btn-outline-dark" (click)="vistaFormulario = false">Cancelar</button>
       </div>
     </form>

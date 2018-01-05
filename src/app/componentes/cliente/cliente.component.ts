@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone, ElementRef, NgModule } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ElementRef, NgModule, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Paginacion } from '../../entidades/entidad.paginacion';
 import { ToastrService } from 'ngx-toastr';
@@ -18,6 +18,7 @@ import { ApiRequestService } from '../../servicios/api-request.service';
 })
 export class ClienteComponent implements OnInit {
 
+  @Input() isModal;
   public page: number = 1;
   public paginacion:Paginacion;
   public solicitando = false;
@@ -58,7 +59,7 @@ export class ClienteComponent implements OnInit {
               private toastr: ToastrService,
               private ref: ChangeDetectorRef,
               public sc: SourceCodeService,
-              private modalService: NgbModal,
+              private modalService: NgbModal
               ) {
     sc.getText('PlacesAutoCompleteComponent').subscribe(text => this.code = text);
     sc.getText('SimpleMarkerComponent').subscribe(text => this.code = text);
@@ -121,6 +122,7 @@ export class ClienteComponent implements OnInit {
   initialized(autocomplete: any) {
     this.autocomplete = autocomplete;
   }
+
   placeChanged(place) {
     this.center = place.geometry.location;
     this.cliente.idpersona.direccion = place.formatted_address;
@@ -239,6 +241,10 @@ export class ClienteComponent implements OnInit {
               this.solicitando = false;
               this.solicitudExitosa = true;
               this.vistaFormulario = false;
+              this.cliente = data.extraInfo;
+              let cliente = this.clientes.find(item => item.id === this.cliente.id);
+              let index = this.clientes.indexOf(cliente);
+              this.clientes[index] = this.cliente;
             } else{
               this.toastr.info(data.operacionMensaje,"Informacion");
               this.solicitando = false;

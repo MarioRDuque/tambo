@@ -51,8 +51,7 @@ export class PedidoSeguimientoComponent implements OnInit {
         if(params['id']!=null){
             this.idPedido = +params['id'];
             this.obtenerpedido();
-        }
-        else{
+        } else {
         	console.log("error");
         }
      });
@@ -64,8 +63,7 @@ export class PedidoSeguimientoComponent implements OnInit {
       .then(data => {
         if(data.extraInfo){
           this.pedido = data.extraInfo;
-        }
-        else{
+        } else {
         	this.toastr.error(data.operacionMensaje, 'Error');
         	this.router.navigate(['./pedidos/lista']);
         }
@@ -93,7 +91,7 @@ export class PedidoSeguimientoComponent implements OnInit {
       "codusu":this.auth.getUserName(),
       "report":'rptBoleta',
       "idPedido":this.pedido.id
-    }
+    };
     this.apiReport.post("reporte/generar",params)
       .then(
         data => {
