@@ -23,7 +23,7 @@
                       <input type="text" class="form-control" placeholder="Ingrese nombre de usuario" [(ngModel)]="numusu">
                       <input type="text" class="form-control" placeholder="Ingrese dni" [(ngModel)]="numdoc">
                       <button type="button" class="input-group-addon cursor-pointer" (click)="busqueda('usuario')"><i class="material-icons">search</i></button>
-                      <button type="button" class="input-group-addon cursor-pointer" (click)="vistaFormulario = true"><i class="material-icons">add_circle</i> Nuevo</button>
+                      <button type="button" class="input-group-addon cursor-pointer" (click)="nuevo()"><i class="material-icons">add_circle</i> Nuevo</button>
                     </div>
                   </div>
                   <div *ngIf="!vistaFormulario && !solicitando">
@@ -47,8 +47,8 @@
                             <td>{{usuario.nombre}} {{usuario.apellidos}}</td>
                             <td>{{usuario.tipousuario ? usuario.tipousuario.nombre : null}}</td>
                             <td style="padding-top: 0px; padding-bottom: 0px;">
-                              <i class="material-icons md-48 cursor-pointer text-danger" title="eliminar">delete</i>
-                              <i class="material-icons md-48 cursor-pointer text-primary" title="editar">create</i>
+                              <i class="material-icons md-48 cursor-pointer text-danger" (click)="confirmarEliminacion(usuario, 'usuario')" title="eliminar">delete</i>
+                              <i class="material-icons md-48 cursor-pointer text-primary" (click)="traerParaEdicion(usuario.id, 'usuario')" title="editar">create</i>
                             </td>
                           </tr>
                           </tbody>
@@ -73,8 +73,7 @@
                       <div class="form-group col-md-6">
                         <label class="col-form-label">DNI <span class="text-primary">*</span> </label>
                         <input type="number" id="dni" name="dni" class="form-control" placeholder="¿Cual es el numero de documento?" [(ngModel)]="usuario.dni"
-                               min="0" max="99999999" onKeyUp="if(this.value>99999999){this.value='99999999';}else if(this.value<0){this.value='0';}"
-                               required>
+                               min="0" max="99999999" required>
                       </div>
                     </div>
                     <div class="form-row">
@@ -107,15 +106,16 @@
                       </div>
                       <div class="form-group col-md-3">
                         <label for="tipoDocs" class="col-form-label">Tipo de usuario <span class="text-primary">*</span></label>
-                        <select class="form-control" id="tipoDocs" name="tipoUsers" [(ngModel)]="usuario.tipousuario" required>
-                          <option *ngFor="let tipo of tiposUsuario" [ngValue]="tipo">
+                        <select class="form-control" id="tipoDocs" name="tipoUsers" [(ngModel)]="usuario.tipousuario.id" required>
+                          <option *ngFor="let tipo of tiposUsuario" [ngValue]="tipo.id">
                             {{ tipo.nombre }}
                           </option>
                         </select>
                       </div>
                     </div>
                     <div style="text-align: right">
-                      <button type="submit" class="btn btn-primary" [disabled]="!usuarioForm.form.valid || !clavesIguales" (click)="onSubmit('usuario',usuario)">Guardar</button>
+                      <button *ngIf="!usuario.id" type="submit" class="btn btn-primary" [disabled]="!usuarioForm.form.valid || !clavesIguales" (click)="onSubmit('usuario',usuario)">Guardar</button>
+                      <button *ngIf="usuario.id" type="submit" class="btn btn-primary" [disabled]="!usuarioForm.form.valid || !clavesIguales" (click)="onSubmit('usuario',usuario)">Editar</button>
                       <button type="button" class="btn btn-outline-dark" (click)="vistaFormulario = false">Cancelar</button>
                     </div>
                   </form>
@@ -137,7 +137,7 @@
                     <div class="input-group">
                       <input type="text" class="form-control" placeholder="Ingrese abreviatura del tipo de documento" [(ngModel)]="abrev">
                       <button type="button" class="input-group-addon cursor-pointer" (click)="busqueda('tipodocumento')"><i class="material-icons">search</i></button>
-                      <button type="button" class="input-group-addon cursor-pointer" (click)="vistaFormulario = true"><i class="material-icons">add_circle</i> Nuevo</button>
+                      <button type="button" class="input-group-addon cursor-pointer" (click)="nuevo()"><i class="material-icons">add_circle</i> Nuevo</button>
                     </div>
                   </div>
                   <div *ngIf="!vistaFormulario && !solicitando">
@@ -157,8 +157,8 @@
                             <td>{{tipodocumento.nombre}}</td>
                             <td>{{tipodocumento.abreviatura}}</td>
                             <td style="padding-top: 0px; padding-bottom: 0px;">
-                              <i class="material-icons md-48 cursor-pointer text-danger" title="eliminar">delete</i>
-                              <i class="material-icons md-48 cursor-pointer text-primary" title="editar">create</i>
+                              <i class="material-icons md-48 cursor-pointer text-danger" (click)="confirmarEliminacion(tipodocumento, 'tipodocumento')" title="eliminar">delete</i>
+                              <i class="material-icons md-48 cursor-pointer text-primary" (click)="traerParaEdicion(tipodocumento.id, 'tipodocumento')" title="editar">create</i>
                             </td>
                           </tr>
                           </tbody>
@@ -186,7 +186,8 @@
                       </div>
                     </div>
                     <div style="text-align: right">
-                      <button type="submit" class="btn btn-primary" [disabled]="!tipoDocForm.form.valid" (click)="onSubmit('tipodocumento',tipodocumento)">Guardar</button>
+                      <button *ngIf="!tipodocumento.id" type="submit" class="btn btn-primary" [disabled]="!tipoDocForm.form.valid" (click)="onSubmit('tipodocumento',tipodocumento)">Guardar</button>
+                      <button *ngIf="tipodocumento.id" type="submit" class="btn btn-primary" [disabled]="!tipoDocForm.form.valid" (click)="onSubmit('tipodocumento',tipodocumento)">Editar</button>
                       <button type="button" class="btn btn-outline-dark" (click)="vistaFormulario = false">Cancelar</button>
                     </div>
                   </form>
@@ -208,7 +209,7 @@
                     <div class="input-group">
                       <input type="text" class="form-control" placeholder="Ingrese abreviatura del unidad de medida" [(ngModel)]="abrev">
                       <button type="button" class="input-group-addon cursor-pointer" (click)="busqueda('unidad')"><i class="material-icons">search</i></button>
-                      <button type="button" class="input-group-addon cursor-pointer" (click)="vistaFormulario = true"><i class="material-icons">add_circle</i> Nuevo</button>
+                      <button type="button" class="input-group-addon cursor-pointer" (click)="nuevo()"><i class="material-icons">add_circle</i> Nuevo</button>
                     </div>
                   </div>
                   <div *ngIf="!vistaFormulario && !solicitando">

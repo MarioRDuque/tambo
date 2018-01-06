@@ -29,7 +29,7 @@ export class MantenimientoComponent implements OnInit {
   public nomusu:"";
   public abrev:"";
   public usuario: any = {
-    "tipousuario":""
+    "tipousuario":{}
   };
   public tipodocumento: any = {};
   public moneda: any = {};
@@ -41,6 +41,15 @@ export class MantenimientoComponent implements OnInit {
               private toastr: ToastrService,
               private modalService: NgbModal) {
     this.paginacion = new Paginacion();
+  }
+
+  nuevo(){
+    this.vistaFormulario = true;
+    this.usuario = {
+      "tipousuario":{}
+    };
+    this.unidad = {};
+    this.tipodocumento = {};
   }
 
   public changeTab($event: NgbTabChangeEvent) {
@@ -132,13 +141,26 @@ export class MantenimientoComponent implements OnInit {
                 this.solicitando = false;
                 this.solicitudExitosa = true;
                 this.vistaFormulario = false;
+                let index;
                 switch (ruta){
                   case 'unidad':
-                  this.unidad = data.extraInfo;
-                  let unidad = this.unidades.find(item => item.id === this.unidad.id);
-                  let index = this.unidades.indexOf(unidad);
-                  this.unidades[index] = this.unidad;
-                  break;
+                    this.unidad = data.extraInfo;
+                    let unidad = this.unidades.find(item => item.id === this.unidad.id);
+                    index = this.unidades.indexOf(unidad);
+                    this.unidades[index] = this.unidad;
+                    break;
+                  case 'usuario':
+                    this.usuario = data.extraInfo;
+                    let usuario = this.usuarios.find(item => item.id === this.usuario.id);
+                    index = this.usuarios.indexOf(usuario);
+                    this.usuarios[index] = this.usuario;
+                    break;
+                  case 'tipodocumento':
+                    this.tipodocumento = data.extraInfo;
+                    let tipodocumento = this.documentos.find(item => item.id === this.tipodocumento.id);
+                    index = this.documentos.indexOf(tipodocumento);
+                    this.documentos[index] = this.tipodocumento;
+                    break;
                 }
               } else {
                 this.toastr.info(data.operacionMensaje,"Informacion");
@@ -198,6 +220,14 @@ export class MantenimientoComponent implements OnInit {
               case 'unidad':
                 this.unidad = data.extraInfo;
                 break;
+              case 'usuario':
+                this.usuario = data.extraInfo;
+                this.usuario.clave1 = this.usuario.password;
+                this.compararClaves();
+                break;
+              case 'tipodocumento':
+                this.tipodocumento = data.extraInfo;
+                break;
             }
           } else {
             this.toastr.info(data.operacionMensaje,"Informacion");
@@ -225,7 +255,13 @@ export class MantenimientoComponent implements OnInit {
             this.solicitando = false;
             switch (ruta){
               case 'unidad':
-                this.unidades.splice(this.unidad.indexOf(obj),1);
+                this.unidades.splice(this.unidades.indexOf(obj),1);
+                break;
+              case 'usuario':
+                this.usuarios.splice(this.usuarios.indexOf(obj),1);
+                break;
+              case 'tipodocumento':
+                this.documentos.splice(this.documentos.indexOf(obj),1);
                 break;
             }
           } else {

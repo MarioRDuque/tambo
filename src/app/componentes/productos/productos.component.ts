@@ -177,6 +177,13 @@ export class ProductosComponent implements OnInit {
       .catch(err => this.handleError(err));
   }
 
+  nuevo(){
+    this.vistaFormulario = true;
+    this.producto = {
+      "idunidad":{}
+    };
+  }
+
   private handleError(error: any): void {
     this.toastr.error("Error interno.","Error");
     this.solicitando = false;
