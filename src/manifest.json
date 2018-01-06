@@ -5,7 +5,6 @@
   "theme_color": "#f48c5b",
   "background_color": "#ffffff",
   "display": "standalone",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "/assets/distribucion2.png",
