@@ -69,27 +69,22 @@ export class ProductosComponent implements OnInit {
   }
 
   traerUnidadesDeMedida(): any {
-    let unidades = JSON.parse(localStorage.getItem("unidades"));
-    if(unidades){
-      this.unidades = unidades;
-    } else {
-      this.solicitando = true;
-      return this.apiRequest.get('unidad')
-        .then(
-          data => {
-            if(data && data.extraInfo){
-              this.solicitando = false;
-              this.solicitudExitosa = true;
-              this.unidades = data.extraInfo;
-            }
-            else {
-              this.toastr.info(data.operacionMensaje,"Informacion");
-              this.solicitando = false;
-            }
+    this.solicitando = true;
+    return this.apiRequest.get('unidad')
+      .then(
+        data => {
+          if(data && data.extraInfo){
+            this.solicitando = false;
+            this.solicitudExitosa = true;
+            this.unidades = data.extraInfo;
           }
-        )
-        .catch(err => this.handleError(err));
-    }
+          else {
+            this.toastr.info(data.operacionMensaje,"Informacion");
+            this.solicitando = false;
+          }
+        }
+      )
+      .catch(err => this.usarStorage(err));
   }
 
   onSubmit():any{
@@ -192,7 +187,8 @@ export class ProductosComponent implements OnInit {
   usarStorage(err){
     if(err.status == 0){
       this.solicitando = false;
-      this.productos = JSON.parse(localStorage.getItem("productos"))
+      this.unidades = JSON.parse(localStorage.getItem("unidades"));
+      this.productos = JSON.parse(localStorage.getItem("productos"));
     } else {
       this.handleError(err);
     }

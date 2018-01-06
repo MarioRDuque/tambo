@@ -228,8 +228,8 @@
                             <td>{{unidad.descripcion}}</td>
                             <td>{{unidad.abreviatura}}</td>
                             <td style="padding-top: 0px; padding-bottom: 0px;">
-                              <i class="material-icons md-48 cursor-pointer text-danger" title="eliminar">delete</i>
-                              <i class="material-icons md-48 cursor-pointer text-primary" title="editar">create</i>
+                              <i class="material-icons md-48 cursor-pointer text-danger" title="eliminar" (click)="confirmarEliminacion(unidad, 'unidad')">delete</i>
+                              <i class="material-icons md-48 cursor-pointer text-primary" title="editar" (click)="traerParaEdicion(unidad.id, 'unidad')">create</i>
                             </td>
                           </tr>
                           </tbody>
@@ -249,15 +249,16 @@
                     <div class="form-row">
                       <div class="form-group col-md-6">
                         <label for="nombreu" class="col-form-label">Nombre de unidad de medida </label>
-                        <input type="text" id="nombreu"  name="nombreu" class="form-control" placeholder="Ingresa nombre" [(ngModel)]="unidad.descripcion" maxlength="20" required>
+                        <input type="text" id="nombreu"  name="nombreu" class="form-control" placeholder="Ingresa nombre" [(ngModel)]="unidad.descripcion" maxlength="100" required>
                       </div>
                       <div class="form-group col-md-6">
                         <label class="col-form-label">Abreviatura <span class="text-primary">*</span> </label>
-                        <input type="text" id="abrevu"  name="abrevu" class="form-control" placeholder="Ingresa abreviatura" [(ngModel)]="unidad.abreviatura" maxlength="15" required>
+                        <input type="text" id="abrevu"  name="abrevu" class="form-control" placeholder="Ingresa abreviatura" [(ngModel)]="unidad.abreviatura" maxlength="50" required>
                       </div>
                     </div>
                     <div style="text-align: right">
-                      <button type="submit" class="btn btn-primary" [disabled]="!unidadForm.form.valid" (click)="onSubmit('unidad',unidad)">Guardar</button>
+                      <button *ngIf="!unidad.id" type="submit" class="btn btn-primary" [disabled]="!unidadForm.form.valid" (click)="onSubmit('unidad',unidad)">Guardar</button>
+                      <button *ngIf="unidad.id" type="submit" class="btn btn-primary" [disabled]="!unidadForm.form.valid" (click)="onSubmit('unidad',unidad)">Actualizar</button>
                       <button type="button" class="btn btn-outline-dark" (click)="vistaFormulario = false">Cancelar</button>
                     </div>
                   </form>
