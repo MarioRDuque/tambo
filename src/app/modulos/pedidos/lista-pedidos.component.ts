@@ -40,7 +40,7 @@ export class ListaPedidosComponent implements OnInit {
     this.parametros = {
       "desde": new Date(this.desde ? this.desde.year+'/'+this.desde.month+'/'+this.desde.day : ""),
       "hasta": new Date(this.hasta ? this.hasta.year+'/'+this.hasta.month+'/'+this.hasta.day : "")
-    }
+    };
     this.traerPedidos();
   }
 
