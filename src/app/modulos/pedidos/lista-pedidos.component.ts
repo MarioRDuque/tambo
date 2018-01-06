@@ -57,7 +57,7 @@ export class ListaPedidosComponent implements OnInit {
           this.pedidos = data.registros;
         }
       })
-      .catch(err => this.handleError(err));
+      .catch(err => this.usarStorage(err));
   }
 
   nuevoPedido(){
@@ -68,6 +68,15 @@ export class ListaPedidosComponent implements OnInit {
     this.solicitando = false;
     this.solicitudExitosa = false;
     this.mensajeForUser = 'Ups Error';
+  }
+
+  usarStorage(err){
+    if(err.status == 0){
+      this.solicitando = false;
+      this.pedidos = JSON.parse(localStorage.getItem("pedidos"))
+    } else {
+      this.handleError(err);
+    }
   }
 
 }

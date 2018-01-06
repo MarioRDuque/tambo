@@ -36,10 +36,55 @@ export class HomeService {
     }
 
   guardarTiposEnStorage(){
+    this.traer100Clientes();
+    this.traer100Productos();
+    this.traer100Pedidos();
     this.guardarTipoDocumento();
     this.traerUbigeos('distrito',null);
     this.traerUbigeos('centro',1);
     this.guardarUnidadesDeMedida();
+  }
+
+  traer100Pedidos(){
+    this.apiRequest.post('pedidos/pagina/'+1+'/cantidadPorPagina/'+100, {})
+      .then(
+        data => {
+          if(data && data.registros){
+            localStorage.setItem("pedidos", JSON.stringify(data.registros));
+          } else {
+            this.toastr.info("No se obtuvieron pedidos", "Info");
+          }
+        }
+      )
+      .catch(err => this.handleError(err));
+  }
+
+  traer100Productos(){
+    this.apiRequest.post('producto/pagina/'+1+'/cantidadPorPagina/'+100, {})
+      .then(
+        data => {
+          if(data && data.registros){
+            localStorage.setItem("productos", JSON.stringify(data.registros));
+          } else {
+            this.toastr.info("No se obtuvieron productos", "Info");
+          }
+        }
+      )
+      .catch(err => this.handleError(err));
+  }
+
+  traer100Clientes(){
+    this.apiRequest.post('cliente/pagina/'+1+'/cantidadPorPagina/'+100, {})
+      .then(
+        data => {
+          if(data && data.registros){
+            localStorage.setItem("clientes", JSON.stringify(data.registros));
+          } else {
+            this.toastr.info("No se obtuvieron clientes", "Info");
+          }
+        }
+      )
+      .catch(err => this.handleError(err));
   }
 
   guardarTipoDocumento(){

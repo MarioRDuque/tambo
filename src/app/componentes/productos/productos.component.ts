@@ -65,7 +65,7 @@ export class ProductosComponent implements OnInit {
           }
         }
       )
-      .catch(err => this.handleError(err));
+      .catch(err => this.usarStorage(err));
   }
 
   traerUnidadesDeMedida(): any {
@@ -187,6 +187,15 @@ export class ProductosComponent implements OnInit {
     this.solicitando = false;
     this.solicitudExitosa = false;
     this.mensajeForUser = 'Ups Error';
+  }
+
+  usarStorage(err){
+    if(err.status == 0){
+      this.solicitando = false;
+      this.productos = JSON.parse(localStorage.getItem("productos"))
+    } else {
+      this.handleError(err);
+    }
   }
 
 }

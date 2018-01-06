@@ -228,7 +228,7 @@ export class ClienteComponent implements OnInit {
           }
         }
       )
-      .catch(err => this.handleError(err));
+      .catch(err => this.usarStorage(err));
   }
 
   onSubmit():any{
@@ -288,4 +288,12 @@ export class ClienteComponent implements OnInit {
     this.mensajeForUser = 'Ups Error';
   }
 
+  usarStorage(err){
+    if(err.status == 0){
+      this.solicitando = false;
+      this.clientes = JSON.parse(localStorage.getItem("clientes"))
+    } else {
+      this.handleError(err);
+    }
+  }
 }

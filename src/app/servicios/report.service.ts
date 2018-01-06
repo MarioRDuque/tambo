@@ -20,7 +20,7 @@ export interface ObjetoJWT {
 @Injectable()
 export class ReportService {
 
-	private headers: Headers;
+  	private headers: Headers;
     private requestOptions: RequestOptions;
     private usuarioActualKey: string = "currentUser";
     private almacenamiento: Storage = localStorage;
@@ -29,7 +29,7 @@ export class ReportService {
     constructor(
         private appConfig: AppConfig,
         private http: Http,
-        private router: Router,
+        private router: Router
     ) {
     	this.responseContentType = ResponseContentType.ArrayBuffer;
     }
