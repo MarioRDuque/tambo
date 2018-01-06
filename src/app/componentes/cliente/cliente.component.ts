@@ -289,7 +289,7 @@ export class ClienteComponent implements OnInit {
   }
 
   usarStorage(err){
-    if(err.status == 0){
+    if(err.status == 0 || err.status == 504){
       this.solicitando = false;
       this.clientes = JSON.parse(localStorage.getItem("clientes"))
     } else {

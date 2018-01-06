@@ -71,7 +71,7 @@ export class ListaPedidosComponent implements OnInit {
   }
 
   usarStorage(err){
-    if(err.status == 0){
+    if(err.status == 0 || err.status == 504){
       this.solicitando = false;
       this.pedidos = JSON.parse(localStorage.getItem("pedidos"))
     } else {

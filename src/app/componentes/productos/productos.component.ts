@@ -185,7 +185,7 @@ export class ProductosComponent implements OnInit {
   }
 
   usarStorage(err){
-    if(err.status == 0){
+    if(err.status == 0 || err.status == 504){
       this.solicitando = false;
       this.unidades = JSON.parse(localStorage.getItem("unidades"));
       this.productos = JSON.parse(localStorage.getItem("productos"));
