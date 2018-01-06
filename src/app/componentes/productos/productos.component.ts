@@ -24,6 +24,7 @@ export class ProductosComponent implements OnInit {
   public producto:any = {
     "idunidad":{}
   };
+  public despro:string="";
   public productos : any = [];
   public unidades:any = [];
   public file:any = [];
@@ -45,7 +46,7 @@ export class ProductosComponent implements OnInit {
   busqueda(): void {
     this.page = 1;
     this.parametros = {
-      "docCliente":this.idProducto
+      "despro":this.despro
     };
     this.traerProductos();
   }
