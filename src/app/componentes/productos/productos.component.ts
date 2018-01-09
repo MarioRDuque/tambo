@@ -22,12 +22,15 @@ export class ProductosComponent implements OnInit {
   public mensajeForUser = '';
   public idProducto = '';
   public producto:any = {
-    "idunidad":{}
+    "productoMedidaList":[]
   };
+  listaPM:any = [];
   public despro:string="";
   public productos : any = [];
   public unidades:any = [];
   public file:any = [];
+  public unidadSelect : any = {};
+  public precio: number;
 
   constructor(
               public activeModal: NgbActiveModal,
@@ -69,6 +72,28 @@ export class ProductosComponent implements OnInit {
       .catch(err => this.usarStorage(err));
   }
 
+  open(content) {
+    this.precio = null;
+    this.modalService.open(content).result.then((result) => {
+      let productoMedida = {
+        "unidadmedida":this.unidadSelect,
+        "precio":this.precio
+      }
+      if (this.unidadSelect && this.unidadSelect.id) {
+        let unidadSelect = this.listaPM.find(item => item.unidadmedida.id === this.unidadSelect.id);
+        if (unidadSelect && unidadSelect.unidadmedida && unidadSelect.unidadmedida.id) {
+          this.toastr.warning('Propiedad ya existe', 'Aviso');
+        } else {
+          this.listaPM.push(productoMedida);
+        }
+        this.unidadSelect = {};
+      }
+    }, (reason) => {
+      this.unidadSelect = {};
+      this.precio = null;
+    });
+  }
+
   traerUnidadesDeMedida(): any {
     this.solicitando = true;
     return this.apiRequest.get('unidad')
@@ -78,8 +103,7 @@ export class ProductosComponent implements OnInit {
             this.solicitando = false;
             this.solicitudExitosa = true;
             this.unidades = data.extraInfo;
-          }
-          else {
+          } else {
             this.toastr.info(data.operacionMensaje,"Informacion");
             this.solicitando = false;
           }
@@ -93,6 +117,12 @@ export class ProductosComponent implements OnInit {
     var formData = new FormData();
     formData.append("file", this.file);
     formData.append("producto", this.producto);
+    this.producto.productoMedidaList = this.listaPM;
+    if(!this.producto.productoMedidaList || this.producto.productoMedidaList.length<=0){
+      this.toastr.warning('Debe añadir unidades de medida', 'Aviso');
+      this.solicitando = false;
+      return;
+    }
     if(this.producto.id){
       return this.apiRequest.put('producto', this.producto)
         .then(
@@ -143,6 +173,7 @@ export class ProductosComponent implements OnInit {
           if(data && data.extraInfo){
             this.solicitando = false;
             this.producto = data.extraInfo;
+            this.listaPM = this.producto.productoMedidaList && this.producto.productoMedidaList.length>0 ? this.producto.productoMedidaList : [];
           }
           else{
             this.toastr.info(data.operacionMensaje,"Informacion");
@@ -161,18 +192,39 @@ export class ProductosComponent implements OnInit {
     });
   }
 
+  quitarMedida(obj):void{
+    const modalRef = this.modalService.open(ModalConfirmacionComponent);
+    modalRef.result.then((result) => {
+      this.eliminarMedida(obj);
+    }, (reason) => {
+    });
+  }
+
+  eliminarMedida(obj){
+    this.solicitando = true;
+    return this.apiRequest.post('producto/eliminarmedida', {idproducto:this.producto.id, idmedida:obj.unidadmedida.id})
+      .then(
+        data => {
+          if(data && data.estadoOperacion == 'EXITO'){
+            this.listaPM.splice(this.listaPM.indexOf(obj),1);
+          }
+          this.solicitando = false;
+        }
+      )
+      .catch(err => this.handleError(err));
+  }
+
   eliminarProducto(producto){
     this.solicitando = true;
     return this.apiRequest.post('producto/eliminar', {id:producto.id})
       .then(
         data => {
           if(data && data.extraInfo){
-            this.solicitando = false;
             this.productos.splice(this.productos.indexOf(producto),1);
-          }
-          else{
+          } else {
             this.toastr.info(data.operacionMensaje,"Informacion");
           }
+          this.solicitando = false;
         }
       )
       .catch(err => this.handleError(err));
@@ -181,8 +233,11 @@ export class ProductosComponent implements OnInit {
   nuevo(){
     this.vistaFormulario = true;
     this.producto = {
-      "idunidad":{}
+      "productoMedidaList":{}
     };
+    this.unidadSelect = {};
+    this.precio = null;
+    this.listaPM = [];
   }
 
   private handleError(error: any): void {

@@ -88,11 +88,17 @@
               <tbody>
                 <tr *ngFor="let producto of pedido.detallePedidoList; let i = index">
                   <td>{{producto.idproducto.nombre}}</td>
-                  <td>{{producto.idproducto.idunidad.descripcion}}</td>
-                  <td>{{producto.moneda.simbolo}} <input type="number" [(ngModel)]="producto.idproducto.precioventa" name="pu-{{i}}" (ngModelChange)="producto.preciototal = producto.idproducto.precioventa * producto.cantidad"></td>
-                  <td><input type="number" [(ngModel)]="producto.cantidad" name="cantidad-{{i}}" (ngModelChange)="producto.preciototal = producto.idproducto.precioventa * producto.cantidad"></td>
-                  <td>{{producto.moneda.simbolo}} {{producto.idproducto.precioventa * producto.cantidad | number}}</td>
-                  <td class="text-right"> <i class="material-icons cursor-pointer text-primary margen-0" (click)="confirmarEliminacionSublinea(pedidoSublinea)">remove_circle</i> </td>
+                  <td>
+                    <select style="height: calc(1.9rem);" class="form-control" id="unidad-{{i}}" name="unidad-{{i}}" [(ngModel)]="producto.idunidad.id" required>
+                      <option *ngFor="let unidad of producto.idproducto.productoMedidaList" [ngValue]="unidad.unidadmedida.id">
+                        {{ unidad.unidadmedida.descripcion }}
+                      </option>
+                    </select>
+                  </td>
+                  <td>{{producto.moneda.simbolo}} <input type="number" [(ngModel)]="producto.idproducto.precioventa" name="pu-{{i}}" (ngModelChange)="producto.preciototal = producto.idproducto.precioventa * producto.idunidad.cantidad * producto.cantidad"></td>
+                  <td><input type="number" [(ngModel)]="producto.cantidad" name="cantidad-{{i}}" (ngModelChange)="producto.preciototal = producto.idproducto.precioventa * producto.idunidad.cantidad * producto.cantidad"></td>
+                  <td>{{producto.moneda.simbolo}} {{producto.idproducto.precioventa * producto.idunidad.cantidad * producto.cantidad | number}}</td>
+                  <td class="text-right"> <i class="material-icons cursor-pointer text-primary margen-0" (click)="confirmarEliminacionDetalle(producto)">remove_circle</i> </td>
                 </tr>
               </tbody>
             </table>

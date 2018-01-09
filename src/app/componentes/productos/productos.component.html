@@ -40,14 +40,18 @@
             <tr>
               <th>Nombre.</th>
               <th>Unidad.</th>
-              <th>Precio</th>
+              <th>Precio Unitario</th>
               <th style="width:30px;">Opciones</th>
             </tr>
             </thead>
             <tbody>
             <tr class="cursor-pointer" (click)="activeModal.dismiss(producto)" *ngFor="let producto of productos">
               <td>{{producto.nombre}}</td>
-              <td>{{producto.idunidad ? producto.idunidad.descripcion : ''}}</td>
+              <td>
+                <i *ngFor="let med of producto.productoMedidaList">
+                  {{med.unidadmedida.descripcion}} -
+                </i>
+              </td>
               <td>{{producto.precioventa}}</td>
               <td style="padding-top: 0px; padding-bottom: 0px;">
                 <i *ngIf="!isModalProducto" class="material-icons md-48 cursor-pointer text-danger" (click)="confirmarEliminacion(producto)" title="eliminar">delete</i>
@@ -76,26 +80,42 @@
           <input type="text" id="nombre"  name="nombre" class="form-control" placeholder="¿Cual es el nombre del producto?" [(ngModel)]="producto.nombre" maxlength="300" required>
         </div>
         <div class="form-group col-md-6">
-          <label for="unidad" class="col-form-label">Unidad de medida <span class="text-primary">*</span></label>
-          <select class="form-control" id="unidad" name="unidad" [(ngModel)]="producto.idunidad.id" required>
-            <option *ngFor="let unidad of unidades" [ngValue]="unidad.id">
-              {{ unidad.descripcion }}
-            </option>
-          </select>
+          <label class="col-form-label">Precio unitario <span class="text-primary">*</span> </label>
+          <input type="number" class="form-control" id="preciou" name="preciou" placeholder="¿Cuales es el precio unitario?" [(ngModel)]="producto.precioventa"
+                 onKeyUp="if(this.value>9999999999){this.value='9999999999';}else if(this.value<0){this.value='0';}" required>
+        </div>
+      </div>
+      <div class="pc-line-neg row box-line-negocio no-gutters justify-content-between align-items-center mt-3">
+        <div class="col pb-3">
+          Unidad de medida
+        </div>
+        <div class="col-auto">
+          <i class="material-icons cursor-pointer text-primary" (click)="open(content)">add_circle</i>
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group col-md-6">
-          <label class="col-form-label">Precio unitario <span class="text-primary">*</span></label>
-          <input type="number" class="form-control" id="precio" name="precio" placeholder="¿Cual es el precio unitario?" [(ngModel)]="producto.precioventa" maxlength="12" required>
-        </div>
-        <div class="form-group col-md-6">
-          <label class="col-form-label">Stock <span class="text-primary">*</span> </label>
-          <input type="number" class="form-control" id="stock" name="stock" placeholder="¿Cuales es el stocks?" [(ngModel)]="producto.stockmin" maxlength="10">
+        <div class="col table-responsive" *ngIf="listaPM && listaPM.length>0">
+          <table class="table table-sigro table-hover">
+            <thead class="thead-inverse">
+            <tr>
+              <th>Unidad de medida.</th>
+              <th style="width:30px;">Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="cursor-pointer" *ngFor="let productomedida of listaPM">
+              <td>
+                {{productomedida.unidadmedida.descripcion}}
+              </td>
+              <td>
+                <i class="material-icons md-48 cursor-pointer text-primary" title="quitar" (click)="quitarMedida(productomedida)">close</i>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-
-      <div class="text-center">
+      <div class="text-center pt-3">
         <label class="btn btn-default">
           <input class="btn btn-primary" type="file" name="file" [(ngModel)]="producto.file" (change)="selectFile($event)">
         </label>
@@ -110,3 +130,28 @@
 
   </div>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title">Agregar Medidas del producto</h5>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="unidad" class="col-form-label">Unidad de Medida <span class="text-primary">*</span></label>
+        <select style="height: calc(2rem);" class="form-control" id="unidad" name="unidad" [(ngModel)]="unidadSelect" required>
+          <option *ngFor="let unidad of unidades" [ngValue]="unidad">
+            {{ unidad.descripcion }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" [disabled]="!unidadSelect" class="btn btn-primary" (click)="c('Close click')">Aceptar</button>
+    <button type="button" class="btn btn-outline-dark" (click)="d()">Cancelar</button>
+  </div>
+</ng-template>

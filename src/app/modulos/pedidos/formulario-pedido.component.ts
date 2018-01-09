@@ -100,6 +100,34 @@ export class FormularioPedidoComponent implements OnInit {
     });
   }
 
+  confirmarEliminacionDetalle(o):void{
+    const modalRef = this.modalService.open(ModalConfirmacionComponent);
+    modalRef.result.then((result) => {
+      this.eliminarDetalle(o);
+    }, (reason) => {
+    });
+  }
+
+  eliminarDetalle(o){
+    if(o.id){
+      this.solicitando = true;
+      this.eventosService.eliminarDetalle(o.id)
+        .then(data => {
+          if(data.extraInfo){
+            this.toastr.success(data.operacionMensaje, 'Exito');
+            this.pedido.detallePedidoList.splice(this.pedido.detallePedidoList.indexOf(o),1);
+          } else {
+            this.toastr.error(data.operacionMensaje, 'Error');
+          }
+          this.solicitando = false;
+          this.solicitudExitosa = true;
+        })
+        .catch(err => this.handleError(err));
+    } else {
+      this.pedido.detallePedidoList.splice(this.pedido.detallePedidoList.indexOf(o),1);
+    }
+  }
+
   abrirProductos():void{
     const modalRef = this.modalService.open(ProductosComponent, { size: 'lg', keyboard: false});
     modalRef.componentInstance.isModalProducto = true;
@@ -109,6 +137,7 @@ export class FormularioPedidoComponent implements OnInit {
       if(reason && reason.id){
         let detalle = {
           "idproducto":reason,
+          "idunidad":reason && reason.productoMedidaList[0] ? reason.productoMedidaList[0].unidadmedida : {},
           "idpedido":this.pedido.id,
           "moneda":{
             "id":1,
@@ -192,6 +221,7 @@ export class FormularioPedidoComponent implements OnInit {
     let ocurrencia:Date = new Date(pedido.fechapedido);
     this.pedido.fechapedido = { year: ocurrencia.getFullYear(), month: ocurrencia.getMonth(), day: ocurrencia.getDate() };
     this.cargando = false;
+
   }
 
   private llenarCampos(){

@@ -70,6 +70,16 @@ export class PedidosService {
       .catch(err => this.handleError(err));
   }
 
+  eliminarDetalle(id: number): Promise<any> {
+    return this.apiRequest.get('pedidos/eliminardetalle/'+id)
+      .then(
+        jsonResp => {
+          return jsonResp;
+        }
+      )
+      .catch(err => this.handleError(err));
+  }
+
   private handleError(error: any): Promise<any> {
     return Promise.reject(error.message || error);
   }

@@ -8,7 +8,7 @@
 <div style="margin: 20px;">
   <div class="row justify-content-center card-bonito" *ngIf="solicitando" style="margin-bottom: 20px;">
     <div class="col col-auto">
-      <p class="text-primary text-center">Obteniendo pedido</p>
+      <p class="text-primary text-center">Cargando ...</p>
        <app-cargando></app-cargando>
     </div>
   </div>
@@ -60,7 +60,7 @@
                 <tbody>
                 <tr *ngFor="let producto of pedido.detallePedidoList">
                   <td>{{producto.idproducto.nombre}}</td>
-                  <td>{{producto.idproducto.idunidad.descripcion}}</td>
+                  <td>{{producto.idunidad.descripcion}}</td>
                   <td>{{producto.cantidad}}</td>
                   <td>{{producto.moneda.simbolo}} {{producto.preciototal}}</td>
                 </tr>
