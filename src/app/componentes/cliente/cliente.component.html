@@ -50,9 +50,9 @@
                 <td>{{cliente.idpersona.numdocumento}}</td>
                 <td>{{cliente.idpersona.nombrecompleto}}</td>
                 <td style="padding-top: 0px; padding-bottom: 0px;">
-                  <i *ngIf="!isModal" class="material-icons md-48 cursor-pointer text-danger" title="eliminar" (click)="confirmarEliminacion(cliente)">delete</i>
-                  <i class="material-icons md-48 cursor-pointer text-primary" title="editar" (click)="editarCliente(cliente.id)">create</i>
-                  <i *ngIf="isModal" class="material-icons md-48 cursor-pointer text-primary" title="elegir">add_circle_outline</i>
+                  <i *ngIf="!isModal" class="material-icons mi-30 cursor-pointer text-danger" title="eliminar" (click)="confirmarEliminacion(cliente)">delete</i>
+                  <i class="material-icons mi-30 cursor-pointer text-primary" title="editar" (click)="editarCliente(cliente.id)">create</i>
+                  <i *ngIf="isModal" class="material-icons mi-30 cursor-pointer text-primary" title="elegir">add_circle_outline</i>
                 </td>
               </tr>
             </tbody>

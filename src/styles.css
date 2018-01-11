@@ -175,3 +175,12 @@ td{
   position: relative;
   background-position: center;
 }
+.mi-30 {
+  font-size: 30px;
+}
+.ngb-pagination-sigro {
+  font-size: 24px;
+}
+.ngb-pagination-sigro ul li{
+  padding: 6px;
+}

@@ -47,16 +47,16 @@
             <tbody>
             <tr class="cursor-pointer" (click)="activeModal.dismiss(producto)" *ngFor="let producto of productos">
               <td>{{producto.nombre}}</td>
-              <td>
+              <td style="padding-top: 0px; padding-bottom: 0px;">
                 <i *ngFor="let med of producto.productoMedidaList">
                   {{med.unidadmedida.descripcion}} -
                 </i>
               </td>
               <td>{{producto.precioventa}}</td>
               <td style="padding-top: 0px; padding-bottom: 0px;">
-                <i *ngIf="!isModalProducto" class="material-icons md-48 cursor-pointer text-danger" (click)="confirmarEliminacion(producto)" title="eliminar">delete</i>
-                <i *ngIf="!isModalProducto" class="material-icons md-48 cursor-pointer text-primary" (click)="traerParaEdicion(producto.id)" title="editar">create</i>
-                <i *ngIf="isModalProducto" class="material-icons md-48 cursor-pointer text-primary" title="elegir">add_circle_outline</i>
+                <i *ngIf="!isModalProducto" class="material-icons mi-30 cursor-pointer text-danger" (click)="confirmarEliminacion(producto)" title="eliminar">delete</i>
+                <i *ngIf="!isModalProducto" class="material-icons mi-30 cursor-pointer text-primary" (click)="traerParaEdicion(producto.id)" title="editar">create</i>
+                <i *ngIf="isModalProducto" class="material-icons mi-30 cursor-pointer text-primary" title="elegir">add_circle_outline</i>
               </td>
             </tr>
             </tbody>
@@ -107,8 +107,8 @@
               <td>
                 {{productomedida.unidadmedida.descripcion}}
               </td>
-              <td>
-                <i class="material-icons md-48 cursor-pointer text-primary" title="quitar" (click)="quitarMedida(productomedida)">close</i>
+              <td style="padding-top: 0px; padding-bottom: 0px;">
+                <i class="material-icons cursor-pointer text-primary" title="quitar" (click)="quitarMedida(productomedida)">close</i>
               </td>
             </tr>
             </tbody>
