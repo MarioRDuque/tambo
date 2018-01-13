@@ -67,7 +67,7 @@ export class HomeService {
           if(data && data.extraInfo){
             localStorage.setItem("categorias", JSON.stringify(data.extraInfo));
           } else {
-            this.toastr.info("No se obtuvieron pedidos", "Info");
+            this.toastr.info("No se obtuvieron categorias", "Info");
           }
         }
       )
