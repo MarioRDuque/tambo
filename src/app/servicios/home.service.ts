@@ -75,7 +75,7 @@ export class HomeService {
   }
 
   traer100Productos(){
-    this.apiRequest.post('producto/pagina/'+1+'/cantidadPorPagina/'+100, {})
+    this.apiRequest.post('producto/pagina/'+1+'/cantidadPorPagina/'+100, {idcat:0})
       .then(
         data => {
           if(data && data.registros){
