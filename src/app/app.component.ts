@@ -121,6 +121,11 @@ export class AppComponent {
     this.collapseNav = this.collapseNav ? false: true;
   }
 
+  navegar(url){
+    this.router.navigate([url]);
+    this.toggleNav();
+  }
+
   private limpiarArray(arreglo: Array<any>){
     if(arreglo != undefined){
         while(arreglo.length > 0) {

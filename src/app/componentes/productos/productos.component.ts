@@ -17,20 +17,26 @@ export class ProductosComponent implements OnInit {
   public paginacion:Paginacion;
   public solicitando = false;
   public vistaFormulario = false;
-  public parametros: any = {};
   public solicitudExitosa = false;
   public mensajeForUser = '';
   public idProducto = '';
+  public idCategoria: number = 0;
   public producto:any = {
+    "idcategoria":{},
     "productoMedidaList":[]
   };
   listaPM:any = [];
   public despro:string="";
   public productos : any = [];
   public unidades:any = [];
+  public categorias:any = [];
   public file:any = [];
   public unidadSelect : any = {};
   public precio: number;
+  public parametros = {
+    "despro":"",
+    "idcat":0
+  };
 
   constructor(
               public activeModal: NgbActiveModal,
@@ -44,12 +50,14 @@ export class ProductosComponent implements OnInit {
   ngOnInit() {
     this.traerProductos();
     this.traerUnidadesDeMedida();
+    this.traerCategorias();
   }
 
   busqueda(): void {
     this.page = 1;
     this.parametros = {
-      "despro":this.despro
+      "despro":this.despro,
+      "idcat":this.idCategoria
     };
     this.traerProductos();
   }
@@ -103,6 +111,24 @@ export class ProductosComponent implements OnInit {
             this.solicitando = false;
             this.solicitudExitosa = true;
             this.unidades = data.extraInfo;
+          } else {
+            this.toastr.info(data.operacionMensaje,"Informacion");
+            this.solicitando = false;
+          }
+        }
+      )
+      .catch(err => this.usarStorage(err));
+  }
+
+  traerCategorias(): any {
+    this.solicitando = true;
+    return this.apiRequest.get('categoria')
+      .then(
+        data => {
+          if(data && data.extraInfo){
+            this.solicitando = false;
+            this.solicitudExitosa = true;
+            this.categorias = data.extraInfo;
           } else {
             this.toastr.info(data.operacionMensaje,"Informacion");
             this.solicitando = false;
@@ -173,6 +199,9 @@ export class ProductosComponent implements OnInit {
           if(data && data.extraInfo){
             this.solicitando = false;
             this.producto = data.extraInfo;
+            if(this.producto && !this.producto.idcategoria){
+              this.producto.idcategoria = {};
+            }
             this.listaPM = this.producto.productoMedidaList && this.producto.productoMedidaList.length>0 ? this.producto.productoMedidaList : [];
           }
           else{
@@ -233,6 +262,7 @@ export class ProductosComponent implements OnInit {
   nuevo(){
     this.vistaFormulario = true;
     this.producto = {
+      "idcategoria":{},
       "productoMedidaList":{}
     };
     this.unidadSelect = {};
@@ -251,6 +281,7 @@ export class ProductosComponent implements OnInit {
     if(err.status == 0 || err.status == 504){
       this.solicitando = false;
       this.unidades = JSON.parse(localStorage.getItem("unidades"));
+      this.categorias = JSON.parse(localStorage.getItem("categorias"));
       this.productos = JSON.parse(localStorage.getItem("productos"));
     } else {
       this.handleError(err);

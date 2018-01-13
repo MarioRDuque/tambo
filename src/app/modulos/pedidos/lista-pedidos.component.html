@@ -58,12 +58,12 @@
           </table>
         </div>
       </div>
-      <div class="row align-items-center mb-3">
-        <div class="col">
-          <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
-        </div>
-        <div class="text-right padding-right-15 table-responsive">
+      <div class="row mb-3">
+        <div class="col-md-6 table-responsive">
           <ngb-pagination style="margin-bottom: 0px;" class="ngb-pagination-sigro" [collectionSize]="paginacion.totalRegistros" [(page)]="page" [maxSize]="1" [boundaryLinks]="true" (pageChange)="traerPedidos()"></ngb-pagination>
+        </div>
+        <div class="col-md-6 text-right pr-3">
+          <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
         </div>
       </div>
     </div>

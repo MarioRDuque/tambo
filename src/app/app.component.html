@@ -16,7 +16,7 @@
         </ul>
         <ul class="navbar-nav" *ngFor="let menu of authService.getMenus()">
           <li class="nav-item" *ngIf="authService.hayToken()">
-            <a class="nav-link cursor-pointer color-auth-btn" routerLink={{menu.url}} style="text-align: center">
+            <a class="nav-link cursor-pointer color-auth-btn" (click)="navegar(menu.url)" style="text-align: center">
               <i class="material-icons" style="font-size: 15px!important;">{{menu.icono}}</i> {{menu.nombre}}
             </a>
           </li>

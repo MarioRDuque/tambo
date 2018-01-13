@@ -39,6 +39,7 @@ export class HomeService {
     this.traer100Clientes();
     this.traer100Productos();
     this.traer100Pedidos();
+    this.guardarCategorias();
     this.guardarTipoDocumento();
     this.traerUbigeos('distrito',null);
     this.traerUbigeos('centro',1);
@@ -51,6 +52,20 @@ export class HomeService {
         data => {
           if(data && data.registros){
             localStorage.setItem("pedidos", JSON.stringify(data.registros));
+          } else {
+            this.toastr.info("No se obtuvieron pedidos", "Info");
+          }
+        }
+      )
+      .catch(err => this.handleError(err));
+  }
+
+  guardarCategorias(){
+    this.apiRequest.get('categoria')
+      .then(
+        data => {
+          if(data && data.extraInfo){
+            localStorage.setItem("categorias", JSON.stringify(data.extraInfo));
           } else {
             this.toastr.info("No se obtuvieron pedidos", "Info");
           }

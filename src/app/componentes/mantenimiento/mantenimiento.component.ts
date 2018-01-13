@@ -25,6 +25,7 @@ export class MantenimientoComponent implements OnInit {
   public monedas: any = [];
   public documentos: any = [];
   public unidades: any = [];
+  public categorias: any = [];
   public numdoc:"";
   public nomusu:"";
   public abrev:"";
@@ -34,6 +35,7 @@ export class MantenimientoComponent implements OnInit {
   public tipodocumento: any = {};
   public moneda: any = {};
   public unidad: any = {};
+  public categoria: any = {};
   public tiposUsuario = [];
   public clavesIguales = false;
 
@@ -49,6 +51,7 @@ export class MantenimientoComponent implements OnInit {
       "tipousuario":{}
     };
     this.unidad = {};
+    this.categoria = {};
     this.tipodocumento = {};
   }
 
@@ -66,7 +69,7 @@ export class MantenimientoComponent implements OnInit {
       case 'unidad':
         this.traer($event.nextId);
         break;
-      case 'moneda':
+      case 'categoria':
         this.traer($event.nextId);
         break;
     }
@@ -117,8 +120,8 @@ export class MantenimientoComponent implements OnInit {
               case 'unidad':
                 this.unidades = data.registros;
                 break;
-              case 'moneda':
-                this.monedas = data.registros;
+              case 'categoria':
+                this.categorias = data.registros;
                 break;
               case 'tipousuario':
                 this.tiposUsuario = data.registros;
@@ -148,6 +151,12 @@ export class MantenimientoComponent implements OnInit {
                     let unidad = this.unidades.find(item => item.id === this.unidad.id);
                     index = this.unidades.indexOf(unidad);
                     this.unidades[index] = this.unidad;
+                    break;
+                  case 'categoria':
+                    this.categoria = data.extraInfo;
+                    let categoria = this.categorias.find(item => item.id === this.categoria.id);
+                    index = this.categorias.indexOf(categoria);
+                    this.categorias[index] = this.categoria;
                     break;
                   case 'usuario':
                     this.usuario = data.extraInfo;
@@ -191,6 +200,10 @@ export class MantenimientoComponent implements OnInit {
                   this.unidades.push(data.extraInfo);
                   this.unidad = {};
                   break;
+                case 'categoria':
+                  this.categorias.push(data.extraInfo);
+                  this.categoria = {};
+                  break;
                 case 'moneda':
                   this.monedas.push(data.extraInfo);
                   this.moneda = {};
@@ -219,6 +232,9 @@ export class MantenimientoComponent implements OnInit {
             switch (ruta){
               case 'unidad':
                 this.unidad = data.extraInfo;
+                break;
+              case 'categoria':
+                this.categoria = data.extraInfo;
                 break;
               case 'usuario':
                 this.usuario = data.extraInfo;
@@ -256,6 +272,9 @@ export class MantenimientoComponent implements OnInit {
             switch (ruta){
               case 'unidad':
                 this.unidades.splice(this.unidades.indexOf(obj),1);
+                break;
+              case 'categoria':
+                this.categorias.splice(this.categorias.indexOf(obj),1);
                 break;
               case 'usuario':
                 this.usuarios.splice(this.usuarios.indexOf(obj),1);

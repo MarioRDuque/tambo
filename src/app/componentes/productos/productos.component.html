@@ -25,6 +25,12 @@
 
     <div class="form-row" *ngIf="!vistaFormulario && !solicitando">
       <div class="input-group">
+        <select style="height: calc(2.5rem);" placeholder="Filtrar por categoria" class="form-control" id="catbus" name="catbus" [(ngModel)]="idCategoria" required>
+          <option value="" disabled selected > Filtrar por categoria </option>
+          <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+            {{ cat.descripcion }}
+          </option>
+        </select>
         <input type="text" class="form-control" placeholder="Busque producto" [(ngModel)]="despro" maxlength="150" id="cdescor"
                name="cdescor" required>
         <button class="input-group-addon" (click)="busqueda()" type="button"><i class="material-icons md-18 cursor-pointer">search</i></button>
@@ -63,21 +69,31 @@
           </table>
         </div>
       </div>
-      <div class="row align-items-center mb-3">
-        <div class="col">
-          <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
-        </div>
-        <div class="text-right padding-right-15 table-responsive">
+      <div class="row mb-3">
+        <div class="col-md-6 table-responsive">
           <ngb-pagination style="margin-bottom: 0px;" class="ngb-pagination-sigro" [collectionSize]="paginacion.totalRegistros" [(page)]="page" [maxSize]="1" [boundaryLinks]="true" (pageChange)="traerProductos()"></ngb-pagination>
+        </div>
+        <div class="col-md-6 text-right pr-3">
+          <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
         </div>
       </div>
     </div>
 
     <form #productoForm="ngForm" *ngIf="vistaFormulario && !solicitando">
       <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12">
           <label for="nombre" class="col-form-label">Nombre <span class="text-primary">*</span></label>
           <input type="text" id="nombre"  name="nombre" class="form-control" placeholder="¿Cual es el nombre del producto?" [(ngModel)]="producto.nombre" maxlength="300" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="cat" class="col-form-label">Categoria <span class="text-primary">*</span></label>
+          <select style="height: calc(2rem);" class="form-control" id="cat" name="cat" [(ngModel)]="producto.idcategoria.id" required>
+            <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+              {{ cat.descripcion }}
+            </option>
+          </select>
         </div>
         <div class="form-group col-md-6">
           <label class="col-form-label">Precio unitario <span class="text-primary">*</span> </label>
@@ -85,8 +101,8 @@
                  onKeyUp="if(this.value>9999999999){this.value='9999999999';}else if(this.value<0){this.value='0';}" required>
         </div>
       </div>
-      <div class="pc-line-neg row box-line-negocio no-gutters justify-content-between align-items-center mt-3">
-        <div class="col pb-3">
+      <div class="pc-line-neg row box-line-negocio no-gutters justify-content-between align-items-center mt-3 p-2" style="background-color: antiquewhite">
+        <div class="col">
           Unidad de medida
         </div>
         <div class="col-auto">

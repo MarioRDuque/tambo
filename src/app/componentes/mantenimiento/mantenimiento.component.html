@@ -55,12 +55,12 @@
                         </table>
                       </div>
                     </div>
-                    <div class="row align-items-center mb-3">
-                      <div class="col">
-                        <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
-                      </div>
-                      <div class="text-right padding-right-15 table-responsive">
+                    <div class="row mb-3">
+                      <div class="col-md-6 table-responsive">
                         <ngb-pagination style="margin-bottom: 0px;" class="ngb-pagination-sigro" [collectionSize]="paginacion.totalRegistros" [(page)]="page" [maxSize]="1" [boundaryLinks]="true" (pageChange)="traer('usuarios')"></ngb-pagination>
+                      </div>
+                      <div class="col-md-6 text-right pr-3">
+                        <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
                       </div>
                     </div>
                   </div>
@@ -165,12 +165,12 @@
                         </table>
                       </div>
                     </div>
-                    <div class="row align-items-center mb-3">
-                      <div class="col">
-                        <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
-                      </div>
-                      <div class="text-right padding-right-15 table-responsive">
+                    <div class="row mb-3">
+                      <div class="col-md-6 table-responsive">
                         <ngb-pagination style="margin-bottom: 0px;" class="ngb-pagination-sigro" [collectionSize]="paginacion.totalRegistros" [(page)]="page" [maxSize]="1" [boundaryLinks]="true" (pageChange)="traer('tipodocumento')"></ngb-pagination>
+                      </div>
+                      <div class="col-md-6 text-right pr-3">
+                        <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
                       </div>
                     </div>
                   </div>
@@ -239,12 +239,12 @@
                         </table>
                       </div>
                     </div>
-                    <div class="row align-items-center mb-3">
-                      <div class="col">
-                        <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
-                      </div>
-                      <div class="text-right padding-right-15 table-responsive">
+                    <div class="row mb-3">
+                      <div class="col-md-6 table-responsive">
                         <ngb-pagination style="margin-bottom: 0px;" class="ngb-pagination-sigro" [collectionSize]="paginacion.totalRegistros" [(page)]="page" [maxSize]="1" [boundaryLinks]="true" (pageChange)="traer('unidad')"></ngb-pagination>
+                      </div>
+                      <div class="col-md-6 text-right pr-3">
+                        <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
                       </div>
                     </div>
                   </div>
@@ -266,6 +266,74 @@
                     <div style="text-align: right">
                       <button *ngIf="!unidad.id" type="submit" class="btn btn-primary" [disabled]="!unidadForm.form.valid" (click)="onSubmit('unidad',unidad)">Guardar</button>
                       <button *ngIf="unidad.id" type="submit" class="btn btn-primary" [disabled]="!unidadForm.form.valid" (click)="onSubmit('unidad',unidad)">Actualizar</button>
+                      <button type="button" class="btn btn-outline-dark" (click)="vistaFormulario = false">Cancelar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="categoria" title="Categorias">
+            <ng-template ngbTabContent>
+              <div style="background-color: #fff" class="p-3">
+                <div class="modal-body">
+                  <div class="row justify-content-center" *ngIf="solicitando">
+                    <div class="col col-auto">
+                      <p class="text-primary text-center">Cargando...</p>
+                      <app-cargando></app-cargando>
+                    </div>
+                  </div>
+                  <div class="form-row" *ngIf="!vistaFormulario && !solicitando">
+                    <div class="input-group">
+                      <input type="text" class="form-control" placeholder="Ingrese descripcion del categoria" [(ngModel)]="abrev">
+                      <button type="button" class="input-group-addon cursor-pointer" (click)="busqueda('unidad')"><i class="material-icons">search</i></button>
+                      <button type="button" class="input-group-addon cursor-pointer" (click)="nuevo()"><i class="material-icons">add_circle</i> Nuevo</button>
+                    </div>
+                  </div>
+                  <div *ngIf="!vistaFormulario && !solicitando">
+                    <br>
+                    <div class="row">
+                      <div class="col table-responsive">
+                        <table class="table table-sigro table-hover">
+                          <thead class="thead-inverse">
+                          <tr>
+                            <th>ID</th>
+                            <th>Descripcion</th>
+                            <th style="width:30px;">Opciones</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr class="cursor-pointer" *ngFor="let categoria of categorias">
+                            <td>{{categoria.id}}</td>
+                            <td>{{categoria.descripcion}}</td>
+                            <td style="padding-top: 0px; padding-bottom: 0px;">
+                              <i class="material-icons mi-30 cursor-pointer text-danger" title="eliminar" (click)="confirmarEliminacion(categoria, 'categoria')">delete</i>
+                              <i class="material-icons mi-30 cursor-pointer text-primary" title="editar" (click)="traerParaEdicion(categoria.id, 'categoria')">create</i>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-6 table-responsive">
+                        <ngb-pagination style="margin-bottom: 0px;" class="ngb-pagination-sigro" [collectionSize]="paginacion.totalRegistros" [(page)]="page" [maxSize]="1" [boundaryLinks]="true" (pageChange)="traer('categoria')"></ngb-pagination>
+                      </div>
+                      <div class="col-md-6 text-right pr-3">
+                        <p class="card-text text-secondary"><small>Mostrando {{paginacion.paginaActual}} de {{paginacion.totalPaginas}} páginas.</small></p>
+                      </div>
+                    </div>
+                  </div>
+                  <form #categoriaForm="ngForm" *ngIf="vistaFormulario && !solicitando">
+                    <div class="form-row">
+                      <div class="form-group col-md-12">
+                        <label for="nombrec" class="col-form-label">Nombre de Categoria </label>
+                        <input type="text" id="nombrec"  name="nombrec" class="form-control" placeholder="Ingresa nombre" [(ngModel)]="categoria.descripcion" maxlength="200" required>
+                      </div>
+                    </div>
+                    <div style="text-align: right">
+                      <button *ngIf="!categoria.id" type="submit" class="btn btn-primary" [disabled]="!categoriaForm.form.valid" (click)="onSubmit('categoria',categoria)">Guardar</button>
+                      <button *ngIf="categoria.id" type="submit" class="btn btn-primary" [disabled]="!categoriaForm.form.valid" (click)="onSubmit('categoria',categoria)">Actualizar</button>
                       <button type="button" class="btn btn-outline-dark" (click)="vistaFormulario = false">Cancelar</button>
                     </div>
                   </form>
