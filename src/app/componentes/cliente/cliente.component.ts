@@ -34,6 +34,7 @@ export class ClienteComponent implements OnInit {
   public solicitudExitosa = false;
   public mensajeForUser = '';
   public numdoc = '';
+  public nombre = '';
   public tipoDocs:any = [];
   public sexos:any = [
     {
@@ -104,7 +105,8 @@ export class ClienteComponent implements OnInit {
   busqueda(): void {
     this.page = 1;
     this.parametros = {
-      "docCliente":this.numdoc
+      "docCliente":this.numdoc,
+      "nombre":this.nombre
     };
     this.traerClientes();
   }

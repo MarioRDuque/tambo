@@ -24,7 +24,7 @@
 
     <div class="form-row" *ngIf="!vistaFormulario && !solicitando">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Ingrese nombre">
+        <input type="text" class="form-control" placeholder="Ingrese nombre" [(ngModel)]="nombre">
         <input type="text" class="form-control" placeholder="Ingrese dni" [(ngModel)]="numdoc">
         <button type="button" class="input-group-addon cursor-pointer" (click)="busqueda()"><i class="material-icons">search</i></button>
         <button type="button" class="input-group-addon cursor-pointer" (click)="nuevoCliente()"><i class="material-icons">add_circle</i> Nuevo</button>

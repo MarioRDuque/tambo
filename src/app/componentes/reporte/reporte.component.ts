@@ -48,7 +48,8 @@ export class ReporteComponent implements OnInit {
       var file = new Blob([data._body],{type: tipoDocumento });
       var url = URL.createObjectURL(file);
       this.exelDownload.nativeElement.href = url;
-      this.exelDownload.nativeElement.download = fileName;
+      //this.exelDownload.nativeElement.download = fileName;
+      this.exelDownload.nativeElement.target = "_blank";
       this.exelDownload.nativeElement.click();
       //this.toastr.success("Documento generado correctamente", "Exito");
     }else{
