@@ -87,19 +87,31 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let producto of pedido.detallePedidoList; let i = index">
-                  <td>{{producto.idproducto.nombre}}</td>
-                  <td>
-                    <select style="height: calc(1.9rem);" class="form-control" id="unidad-{{i}}" name="unidad-{{i}}" [(ngModel)]="producto.idunidad.id" required>
-                      <option *ngFor="let unidad of producto.idproducto.productoMedidaList" [ngValue]="unidad.unidadmedida.id">
-                        {{ unidad.unidadmedida.descripcion }}
+                <tr *ngFor="let detalle of pedido.detallePedidoList; let i = index">
+                  <td>{{detalle.idproducto.nombre}}</td>
+                  <td style="min-width: 200px;">
+                    <select style="height: calc(1.7rem); padding: 0 10px;" class="form-control" id="unidad-{{i}}" name="unidad-{{i}}"
+                            [(ngModel)]="pedido.detallePedidoList[i].idunidad.id" (change)="obtenerPrecio(detalle)" required>
+                      <option *ngFor="let unidad of pedido.detallePedidoList[i].idproducto.productomedidaList" [ngValue]="unidad.idunidadmedida.id">
+                        {{ unidad.idunidadmedida.descripcion }}
                       </option>
                     </select>
                   </td>
-                  <td>{{producto.moneda.simbolo}} <input type="number" [(ngModel)]="producto.idproducto.precioventa" name="pu-{{i}}" (ngModelChange)="producto.preciototal = producto.idproducto.precioventa * producto.idunidad.cantidad * producto.cantidad"></td>
-                  <td><input type="number" [(ngModel)]="producto.cantidad" name="cantidad-{{i}}" (ngModelChange)="producto.preciototal = producto.idproducto.precioventa * producto.idunidad.cantidad * producto.cantidad"></td>
-                  <td>{{producto.moneda.simbolo}} {{producto.idproducto.precioventa * producto.idunidad.cantidad * producto.cantidad | number}}</td>
-                  <td class="text-right"> <i class="material-icons cursor-pointer text-primary margen-0" (click)="confirmarEliminacionDetalle(producto)">remove_circle</i> </td>
+                  <td>
+                    {{detalle.moneda.simbolo}}
+                    <input type="number" [(ngModel)]="detalle.preciounitario" name="pu-{{i}}"
+                           (ngModelChange)="detalle.preciototal = detalle.preciounitario * detalle.cantidad">
+                  </td>
+                  <td>
+                    <input type="number" [(ngModel)]="detalle.cantidad" name="cantidad-{{i}}"
+                           (ngModelChange)="detalle.preciototal = detalle.preciounitario * detalle.cantidad">
+                  </td>
+                  <td>
+                    {{detalle.moneda.simbolo}} {{detalle.preciototal | number : '1.2-2'}}
+                  </td>
+                  <td class="text-right">
+                    <i class="material-icons cursor-pointer text-primary margen-0" (click)="confirmarEliminacionDetalle(detalle)">remove_circle</i>
+                  </td>
                 </tr>
               </tbody>
             </table>

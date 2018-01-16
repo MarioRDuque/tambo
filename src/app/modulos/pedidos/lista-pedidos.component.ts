@@ -13,6 +13,7 @@ import { PedidosService } from './servicios/pedidos.service'
 })
 export class ListaPedidosComponent implements OnInit {
 
+  public languaje = 'es';
   public pedidos: any = [];
   public page: number = 1;
   public paginacion:Paginacion;

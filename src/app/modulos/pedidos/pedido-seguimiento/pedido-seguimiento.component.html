@@ -59,8 +59,8 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let producto of pedido.detallePedidoList">
-                  <td>{{producto.idproducto.nombre}}</td>
-                  <td>{{producto.idunidad.descripcion}}</td>
+                  <td>{{producto.idproducto ? producto.idproducto.nombre : "NO ESPECIFICA"}}</td>
+                  <td>{{producto.idunidad ? producto.idunidad.descripcion : "NO ESPECIFICA"}}</td>
                   <td>{{producto.cantidad}}</td>
                   <td>{{producto.moneda.simbolo}} {{producto.preciototal}}</td>
                 </tr>
