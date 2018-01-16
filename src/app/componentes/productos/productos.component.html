@@ -43,28 +43,22 @@
         <div class="col table-responsive">
           <table class="table table-sigro table-hover">
             <thead class="thead-inverse">
-            <tr>
-              <th>Nombre.</th>
-              <th>Unidad.</th>
-              <th>Precio Unitario</th>
-              <th style="width:30px;">Opciones</th>
-            </tr>
+              <tr>
+                <th>Nombre.</th>
+                <th>Categoria.</th>
+                <th style="width:30px;">Opciones</th>
+              </tr>
             </thead>
             <tbody>
-            <tr class="cursor-pointer" (click)="activeModal.dismiss(producto)" *ngFor="let producto of productos">
-              <td>{{producto.nombre}}</td>
-              <td style="padding-top: 0px; padding-bottom: 0px;">
-                <i *ngFor="let med of producto.productoMedidaList">
-                  {{med.unidadmedida.descripcion}} -
-                </i>
-              </td>
-              <td>{{producto.precioventa}}</td>
-              <td style="padding-top: 0px; padding-bottom: 0px;">
-                <i *ngIf="!isModalProducto" class="material-icons mi-30 cursor-pointer text-danger" (click)="confirmarEliminacion(producto)" title="eliminar">delete</i>
-                <i *ngIf="!isModalProducto" class="material-icons mi-30 cursor-pointer text-primary" (click)="traerParaEdicion(producto.id)" title="editar">create</i>
-                <i *ngIf="isModalProducto" class="material-icons mi-30 cursor-pointer text-primary" title="elegir">add_circle_outline</i>
-              </td>
-            </tr>
+              <tr class="cursor-pointer" (click)="activeModal.dismiss(producto)" *ngFor="let producto of productos">
+                <td>{{producto.nombre}}</td>
+                <td>{{producto.idcategoria.descripcion}}</td>
+                <td style="padding-top: 0px; padding-bottom: 0px;">
+                  <i *ngIf="!isModalProducto" class="material-icons mi-30 cursor-pointer text-danger" (click)="confirmarEliminacion(producto)" title="eliminar">delete</i>
+                  <i class="material-icons mi-30 cursor-pointer text-primary" (click)="traerParaEdicion(producto.id)" title="editar">create</i>
+                  <i *ngIf="isModalProducto" class="material-icons mi-30 cursor-pointer text-primary" title="elegir">add_circle_outline</i>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -87,7 +81,7 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12">
           <label for="cat" class="col-form-label">Categoria <span class="text-primary">*</span></label>
           <select style="height: calc(2rem);" class="form-control" id="cat" name="cat" [(ngModel)]="producto.idcategoria.id" required>
             <option *ngFor="let cat of categorias" [ngValue]="cat.id">
@@ -95,11 +89,11 @@
             </option>
           </select>
         </div>
-        <div class="form-group col-md-6">
+        <!--div class="form-group col-md-6">
           <label class="col-form-label">Precio unitario <span class="text-primary">*</span> </label>
           <input type="number" class="form-control" id="preciou" name="preciou" placeholder="¿Cuales es el precio unitario?" [(ngModel)]="producto.precioventa"
                  onKeyUp="if(this.value>9999999999){this.value='9999999999';}else if(this.value<0){this.value='0';}" required>
-        </div>
+        </div-->
       </div>
       <div class="pc-line-neg row box-line-negocio no-gutters justify-content-between align-items-center mt-3 p-2" style="background-color: antiquewhite">
         <div class="col">
@@ -115,13 +109,18 @@
             <thead class="thead-inverse">
             <tr>
               <th>Unidad de medida.</th>
+              <th>Precio.</th>
               <th style="width:30px;">Opciones</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="cursor-pointer" *ngFor="let productomedida of listaPM">
+            <tr class="cursor-pointer" *ngFor="let productomedida of listaPM; let i = index;">
               <td>
-                {{productomedida.unidadmedida.descripcion}}
+                {{productomedida.idunidadmedida.descripcion}}
+              </td>
+              <td style="width: 200px;">
+                <input type="number" name="precio-{{i}}" class="form-control" [(ngModel)]="productomedida.precio"
+                       onKeyUp="if(this.value>9999999999){this.value='9999999999';}else if(this.value<0){this.value='0';}" required>
               </td>
               <td style="padding-top: 0px; padding-bottom: 0px;">
                 <i class="material-icons cursor-pointer text-primary" title="quitar" (click)="quitarMedida(productomedida)">close</i>

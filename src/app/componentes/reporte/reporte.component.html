@@ -7,7 +7,14 @@
 </div>
 <div style="margin: 20px;">
   <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-    <ngb-panel title="Productos vendidos del dia">
+    <ngb-panel title="Productos por entregar del dia">
+      <ng-template ngbPanelContent>
+        <div class="text-right">
+          <button type="button" class="btn btn-primary" (click)="descargarReporte('rptProductosPorEntregar')"><i class="material-icons margen-0" style="font-size: 12px;">picture_as_pdf</i> Generar</button>
+        </div>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel title="Productos entregados del dia">
       <ng-template ngbPanelContent>
         <div class="text-right">
           <button type="button" class="btn btn-primary" (click)="descargarReporte('rptProductosVendidos')"><i class="material-icons margen-0" style="font-size: 12px;">picture_as_pdf</i> Generar</button>

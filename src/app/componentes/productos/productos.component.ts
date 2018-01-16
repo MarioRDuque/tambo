@@ -23,7 +23,7 @@ export class ProductosComponent implements OnInit {
   public idCategoria: number = 0;
   public producto:any = {
     "idcategoria":{},
-    "productoMedidaList":[]
+    "productomedidaList":[]
   };
   listaPM:any = [];
   public despro:string="";
@@ -84,12 +84,14 @@ export class ProductosComponent implements OnInit {
     this.precio = null;
     this.modalService.open(content).result.then((result) => {
       let productoMedida = {
-        "unidadmedida":this.unidadSelect,
-        "precio":this.precio
+        "idunidadmedida":this.unidadSelect,
+        "precio":this.precio,
+        "estado":true,
+        "idproducto":this.producto.id
       }
       if (this.unidadSelect && this.unidadSelect.id) {
-        let unidadSelect = this.listaPM.find(item => item.unidadmedida.id === this.unidadSelect.id);
-        if (unidadSelect && unidadSelect.unidadmedida && unidadSelect.unidadmedida.id) {
+        let unidadSelect = this.listaPM.find(item => item.idunidadmedida.id === this.unidadSelect.id);
+        if (unidadSelect && unidadSelect.idunidadmedida && unidadSelect.idunidadmedida.id) {
           this.toastr.warning('Propiedad ya existe', 'Aviso');
         } else {
           this.listaPM.push(productoMedida);
@@ -143,8 +145,8 @@ export class ProductosComponent implements OnInit {
     var formData = new FormData();
     formData.append("file", this.file);
     formData.append("producto", this.producto);
-    this.producto.productoMedidaList = this.listaPM;
-    if(!this.producto.productoMedidaList || this.producto.productoMedidaList.length<=0){
+    this.producto.productomedidaList = this.listaPM;
+    if(!this.producto.productomedidaList || this.producto.productomedidaList.length<=0){
       this.toastr.warning('Debe añadir unidades de medida', 'Aviso');
       this.solicitando = false;
       return;
@@ -202,7 +204,7 @@ export class ProductosComponent implements OnInit {
             if(this.producto && !this.producto.idcategoria){
               this.producto.idcategoria = {};
             }
-            this.listaPM = this.producto.productoMedidaList && this.producto.productoMedidaList.length>0 ? this.producto.productoMedidaList : [];
+            this.listaPM = this.producto.productomedidaList && this.producto.productomedidaList.length>0 ? this.producto.productomedidaList : [];
           }
           else{
             this.toastr.info(data.operacionMensaje,"Informacion");
@@ -263,7 +265,7 @@ export class ProductosComponent implements OnInit {
     this.vistaFormulario = true;
     this.producto = {
       "idcategoria":{},
-      "productoMedidaList":{}
+      "productomedidaList":{}
     };
     this.unidadSelect = {};
     this.precio = null;

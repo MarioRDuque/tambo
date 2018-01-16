@@ -30,6 +30,7 @@ export class FormularioPedidoComponent implements OnInit {
   address: any = {};
   center: any;
   code: string;
+  precioPorunidad:number = 0;
 
   public pedido: any = {
     "idcliente":{
@@ -137,17 +138,26 @@ export class FormularioPedidoComponent implements OnInit {
       if(reason && reason.id){
         let detalle = {
           "idproducto":reason,
-          "idunidad":reason && reason.productoMedidaList[0] ? reason.productoMedidaList[0].unidadmedida : {},
+          "idunidad":reason && reason.productomedidaList[0] ? reason.productomedidaList[0].idunidadmedida : {},
           "idpedido":this.pedido.id,
           "moneda":{
             "id":1,
             "simbolo":"S/."
           },
-          "estado":true
+          "estado":true,
+          "preciounitario":reason.productomedidaList[0].precio
         };
         this.pedido.detallePedidoList.push(detalle);
       }
     });
+  }
+
+  obtenerPrecio(detalle){
+    let producto = detalle.idproducto;
+    let pm = producto.productomedidaList;
+    let unidad = detalle.idunidad;
+    let pmSelect = pm.find(item => item.idunidadmedida.id === unidad.id);
+    detalle.preciounitario = pmSelect.precio;
   }
 
   traerPedido(id:number=this.idPedido,ruta:string='/pedidos/obtenerEntidad'): void {
