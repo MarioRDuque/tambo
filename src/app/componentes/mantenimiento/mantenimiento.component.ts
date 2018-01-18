@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import {ClienteComponent} from '../cliente/cliente.component';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgbTabChangeEvent} from '@ng-bootstrap/ng-bootstrap';
@@ -6,6 +6,8 @@ import { Paginacion } from '../../entidades/entidad.paginacion';
 import { ToastrService } from 'ngx-toastr';
 import{ ModalConfirmacionComponent } from './../../componentes/modal-confirmacion.component';
 import { ApiRequestService } from '../../servicios/api-request.service';
+
+
 
 @Component({
   selector: 'app-mantenimiento',
@@ -26,9 +28,11 @@ export class MantenimientoComponent implements OnInit {
   public documentos: any = [];
   public unidades: any = [];
   public categorias: any = [];
+  public verpass=false;
   public numdoc:"";
   public nomusu:"";
   public abrev:"";
+  public tipoinput:"password";
   public usuario: any = {
     "tipousuario":{}
   };
@@ -39,11 +43,24 @@ export class MantenimientoComponent implements OnInit {
   public tiposUsuario = [];
   public clavesIguales = false;
 
+  @ViewChild("clave") clave;
+
   constructor(private apiRequest: ApiRequestService,
               private toastr: ToastrService,
               private modalService: NgbModal) {
     this.paginacion = new Paginacion();
   }
+
+  ver_password() {
+      var passwd_valor = this.usuario.password;
+     this.verpass=!this.verpass;
+      console.log(passwd_valor);
+      if(this.verpass == true) {
+          this.clave.nativeElement.type="text";
+        } else {
+             this.clave.nativeElement.type="password";
+        }
+    }
 
   nuevo(){
     this.vistaFormulario = true;
