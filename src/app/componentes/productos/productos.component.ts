@@ -209,6 +209,7 @@ export class ProductosComponent implements OnInit {
           else{
             this.toastr.info(data.operacionMensaje,"Informacion");
             this.vistaFormulario = false;
+            this.solicitando = false;
           }
         }
       )
@@ -233,7 +234,7 @@ export class ProductosComponent implements OnInit {
 
   eliminarMedida(obj){
     this.solicitando = true;
-    return this.apiRequest.post('producto/eliminarmedida', {idproducto:this.producto.id, idmedida:obj.unidadmedida.id})
+    return this.apiRequest.post('producto/eliminarmedida', {id:obj.id})
       .then(
         data => {
           if(data && data.estadoOperacion == 'EXITO'){

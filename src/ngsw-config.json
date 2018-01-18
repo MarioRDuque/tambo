@@ -1,7 +1,7 @@
 {
   "index": "/index.html",
   "assetGroups": [{
-    "name": "limatambo",
+    "name": "lima",
     "installMode": "prefetch",
     "resources": {
       "files": [

@@ -228,14 +228,14 @@ export class FormularioPedidoComponent implements OnInit {
   }
 
   llenarDatosParaEdicion(pedido: any) : void {
-    let ocurrencia:Date = new Date(pedido.fechapedido);
-    this.pedido.fechapedido = { year: ocurrencia.getFullYear(), month: ocurrencia.getMonth(), day: ocurrencia.getDate() };
+    let ocurrencia:Date = new Date(pedido.fechalimite);
+    this.pedido.fechalimite = { year: ocurrencia.getFullYear(), month: ocurrencia.getMonth(), day: ocurrencia.getDate() };
     this.cargando = false;
 
   }
 
   private llenarCampos(){
-    this.pedido.fechapedido = new Date(this.pedido.fechapedido.year,this.pedido.fechapedido.month,this.pedido.fechapedido.day);
+    this.pedido.fechalimite = new Date(this.pedido.fechalimite.year,this.pedido.fechalimite.month,this.pedido.fechalimite.day);
   }
 
   private limpiarCampos(){

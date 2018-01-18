@@ -18,7 +18,6 @@ export class ReporteComponent implements OnInit {
   constructor(public api: ApiRequestService,
               public apiReport: ReportService,
               public auth: AuthService) {
-
   }
 
   ngOnInit() {
