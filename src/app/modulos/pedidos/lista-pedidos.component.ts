@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbDatepickerConfig, NgbDateStruct, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbDatepickerConfig, NgbDateStruct, NgbDropdownConfig, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
+import {I18n, CustomDatepickerI18n} from './../../servicios/datepicker-i18n';
 import { Paginacion } from '../../entidades/entidad.paginacion';
 import { PedidosService } from './servicios/pedidos.service'
 
@@ -9,7 +9,7 @@ import { PedidosService } from './servicios/pedidos.service'
   selector: 'app-lista-pedidos',
   templateUrl: './lista-pedidos.component.html',
   styleUrls: ['./lista-pedidos.component.css'],
-  providers: [NgbDatepickerConfig, NgbDropdownConfig]
+  providers: [I18n, NgbDatepickerConfig, NgbDropdownConfig, {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}]
 })
 export class ListaPedidosComponent implements OnInit {
 

@@ -57,6 +57,13 @@
         </div>
       </ng-template>
     </ngb-panel>
+    <ngb-panel title="Notas de pedido del dia">
+      <ng-template ngbPanelContent>
+        <div class="text-right">
+          <button type="button" class="btn btn-primary" (click)="descargarReporte('rptNotasDePedido')"><i class="material-icons margen-0" style="font-size: 12px;">picture_as_pdf</i> Generar</button>
+        </div>
+      </ng-template>
+    </ngb-panel>
   </ngb-accordion>
 </div>
 <div class="row justify-content-end">

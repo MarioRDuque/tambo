@@ -8,6 +8,9 @@ import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NgbDatepickerConfig, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {Injectable} from '@angular/core';
+import {NgbDatepickerI18n} from '@ng-bootstrap/ng-bootstrap';
+import {I18n, CustomDatepickerI18n} from './../../servicios/datepicker-i18n';
 
 import{ ModalConfirmacionComponent } from './../../componentes/modal-confirmacion.component';
 import{ ClienteComponent } from './../../componentes/cliente/cliente.component';
@@ -21,7 +24,7 @@ const NOW = new Date();
   selector: 'app-formulario-pedido',
   templateUrl: './formulario-pedido.component.html',
   styleUrls: ['./formulario-pedido.component.css'],
-  providers: [NgbDatepickerConfig]
+  providers: [I18n, NgbDatepickerConfig, {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}]
 })
 
 export class FormularioPedidoComponent implements OnInit {
@@ -231,7 +234,6 @@ export class FormularioPedidoComponent implements OnInit {
     let ocurrencia:Date = new Date(pedido.fechalimite);
     this.pedido.fechalimite = { year: ocurrencia.getFullYear(), month: ocurrencia.getMonth(), day: ocurrencia.getDate() };
     this.cargando = false;
-
   }
 
   private llenarCampos(){

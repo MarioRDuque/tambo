@@ -110,7 +110,8 @@ export class PedidoSeguimientoComponent implements OnInit {
       var file = new Blob([data._body],{type: tipoDocumento });
       var url = URL.createObjectURL(file);
       this.boletaDownload.nativeElement.href = url;
-      this.boletaDownload.nativeElement.download = fileName;
+      this.boletaDownload.nativeElement.target = "_blank";
+      //this.boletaDownload.nativeElement.download = fileName;
       this.boletaDownload.nativeElement.click();
     }else{
     }
