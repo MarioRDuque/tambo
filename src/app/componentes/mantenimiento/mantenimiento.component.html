@@ -64,6 +64,7 @@
                       </div>
                     </div>
                   </div>
+
                   <form #usuarioForm="ngForm" *ngIf="vistaFormulario && !solicitando">
                     <div class="form-row">
                       <div class="form-group col-md-6">
@@ -89,7 +90,11 @@
                     <div class="form-row">
                       <div class="form-group col-md-6">
                         <label class="col-form-label">Clave <span class="text-primary">*</span></label>
-                        <input type="password" class="form-control" id="clave" name="clave" placeholder="Ingrese Clave" (keyup)="compararClaves()" [(ngModel)]="usuario.password" maxlength="32">
+                        <label style="float: right; margin-bottom: 0;" *ngIf="verpass"><i class="material-icons cursor-pointer" (click)="ver_password()" name="ver_pass" value="ver" >remove_red_eye</i></label>
+                        <label style="float: right; margin-bottom: 0;" *ngIf="!verpass"><i class="material-icons cursor-pointer"  (click)="ver_password()">visibility_off</i></label>
+                          <span id="pass" >
+                            <input type="password"  class="form-control" id="clave" #clave name="clave" placeholder="Ingrese Clave" (keyup)="compararClaves()" [(ngModel)]="usuario.password" maxlength="32" >
+                          </span>
                       </div>
                       <div class="form-group col-md-6">
                         <label class="col-form-label">Confirmar Clave <span class="text-primary">*</span></label>
