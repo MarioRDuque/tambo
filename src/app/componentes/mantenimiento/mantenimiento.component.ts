@@ -51,30 +51,16 @@ export class MantenimientoComponent implements OnInit {
     this.paginacion = new Paginacion();
   }
 
-
-    ver_password() {
+  ver_password() {
       var passwd_valor = this.usuario.password;
      this.verpass=!this.verpass;
       console.log(passwd_valor);
-
-
-      if(this.verpass == true)
-      {
-        this.clave.nativeElement.type="text";
-      }
-      else {
-        this.clave.nativeElement.type="password";
-      }
-
-      /*document.getElementById('pass').innerHTML
-          = (document.elformulario.ver_pass.checked)
-          ? '<input type="text"     name="clave" value="">'
-          : '<input type="password" name="clave" value="">'
-      ;
-
-      document.usuarioForm.clave.value = passwd_valor;*/
+      if(this.verpass == true) {
+          this.clave.nativeElement.type="text";
+        } else {
+             this.clave.nativeElement.type="password";
+        }
     }
-
 
   nuevo(){
     this.vistaFormulario = true;
