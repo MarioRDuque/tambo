@@ -91,7 +91,7 @@
                 <td>{{detalle.idproducto.nombre}}</td>
                 <td style="min-width: 200px;">
                   <select style="height: calc(1.7rem); padding: 0 10px;" class="form-control" id="unidad-{{i}}" name="unidad-{{i}}"
-                          [(ngModel)]="pedido.detallePedidoList[i].idunidad.id" (change)="obtenerPrecio(detalle)" required>
+                          [(ngModel)]="pedido.detallePedidoList[i].idunidad.id" (change)="obtenerPrecio(detalle);" required>
                     <option *ngFor="let unidad of pedido.detallePedidoList[i].idproducto.productomedidaList" [ngValue]="unidad.idunidadmedida.id">
                       {{ unidad.idunidadmedida.descripcion }}
                     </option>

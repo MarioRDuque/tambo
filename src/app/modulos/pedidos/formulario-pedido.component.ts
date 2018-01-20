@@ -161,6 +161,8 @@ export class FormularioPedidoComponent implements OnInit {
     let unidad = detalle.idunidad;
     let pmSelect = pm.find(item => item.idunidadmedida.id === unidad.id);
     detalle.preciounitario = pmSelect.precio;
+    detalle.preciototal = detalle.preciounitario * detalle.cantidad;
+    this.calcularImporte();
   }
 
   traerPedido(id:number=this.idPedido,ruta:string='/pedidos/obtenerEntidad'): void {
