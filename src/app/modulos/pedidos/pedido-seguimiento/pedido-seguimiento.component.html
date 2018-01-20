@@ -50,21 +50,29 @@
             <div class="col box-line-negocio-cuerpo table-responsive-secundaria ">
               <table class="table table-hover mb-0">
                 <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Unidad Medida</th>
-                  <th>Cantidad</th>
-                  <th>Precio</th>
-                </tr>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Unidad Medida</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                  </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let producto of pedido.detallePedidoList">
-                  <td>{{producto.idproducto ? producto.idproducto.nombre : "NO ESPECIFICA"}}</td>
-                  <td>{{producto.idunidad ? producto.idunidad.descripcion : "NO ESPECIFICA"}}</td>
-                  <td>{{producto.cantidad}}</td>
-                  <td>{{producto.moneda.simbolo}} {{producto.preciototal}}</td>
-                </tr>
+                  <tr *ngFor="let producto of pedido.detallePedidoList">
+                    <td>{{producto.idproducto ? producto.idproducto.nombre : "NO ESPECIFICA"}}</td>
+                    <td>{{producto.idunidad ? producto.idunidad.descripcion : "NO ESPECIFICA"}}</td>
+                    <td>{{producto.cantidad}}</td>
+                    <td>{{producto.moneda.simbolo}} {{producto.preciototal | number : '1.2-2'}}</td>
+                  </tr>
                 </tbody>
+                <thead>
+                  <tr>
+                    <th>IMPORTE TOTAL</th>
+                    <th></th>
+                    <th></th>
+                    <th>S./ {{importe}}</th>
+                  </tr>
+                </thead>
               </table>
             </div>
           </div>

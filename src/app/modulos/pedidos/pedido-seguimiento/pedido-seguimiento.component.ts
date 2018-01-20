@@ -22,6 +22,7 @@ export class PedidoSeguimientoComponent implements OnInit {
   lat: number = -5.0925000;
   lng: number = -80.1625000;
   idPedido : number;
+  importe: number = 0;
   solicitando : boolean = false;
   solicitudExitosa : boolean = false;
   mensajeForUser : string = "";
@@ -63,6 +64,7 @@ export class PedidoSeguimientoComponent implements OnInit {
       .then(data => {
         if(data.extraInfo){
           this.pedido = data.extraInfo;
+          this.calcularImporte();
         } else {
         	this.toastr.error(data.operacionMensaje, 'Error');
         	this.router.navigate(['./pedidos/lista']);
@@ -123,6 +125,14 @@ export class PedidoSeguimientoComponent implements OnInit {
       this.eliminarpedido();
     }, (reason) => {
     });
+  }
+
+  calcularImporte() {
+    this.importe = 0;
+    for(var i=0; i<this.pedido.detallePedidoList.length; i++){
+      this.importe = this.pedido.detallePedidoList[i].preciototal + this.importe;
+    }
+    this.importe;
   }
 
   abrirRevisiones():void{

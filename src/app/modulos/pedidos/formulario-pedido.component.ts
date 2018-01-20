@@ -34,7 +34,7 @@ export class FormularioPedidoComponent implements OnInit {
   center: any;
   code: string;
   precioPorunidad:number = 0;
-
+  importe: number = 0;
   public pedido: any = {
     "idcliente":{
       "idpersona":{}
@@ -170,6 +170,7 @@ export class FormularioPedidoComponent implements OnInit {
       .then(data => {
         if(data.extraInfo){
           this.pedido = data.extraInfo;
+          this.calcularImporte();
           this.llenarDatosParaEdicion(this.pedido);
         } else {
           this.toastr.error(data.operacionMensaje, 'Error');
@@ -222,6 +223,14 @@ export class FormularioPedidoComponent implements OnInit {
     this.solicitando = false;
     this.solicitudExitosa = false;
     this.toastr.error("Error Interno", 'Error');
+  }
+
+  calcularImporte() {
+    this.importe = 0;
+    for(var i=0; i<this.pedido.detallePedidoList.length; i++){
+        this.importe = this.pedido.detallePedidoList[i].preciototal + this.importe;
+    }
+    this.importe;
   }
 
   onSubmit(): void {

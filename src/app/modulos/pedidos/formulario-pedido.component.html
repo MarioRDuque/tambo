@@ -100,11 +100,11 @@
                 <td>
                   {{detalle.moneda.simbolo}}
                   <input type="number" [(ngModel)]="detalle.preciounitario" name="pu-{{i}}"
-                         (ngModelChange)="detalle.preciototal = detalle.preciounitario * detalle.cantidad">
+                         (ngModelChange)="detalle.preciototal = detalle.preciounitario * detalle.cantidad; calcularImporte()">
                 </td>
                 <td>
                   <input type="number" [(ngModel)]="detalle.cantidad" name="cantidad-{{i}}"
-                         (ngModelChange)="detalle.preciototal = detalle.preciounitario * detalle.cantidad">
+                         (ngModelChange)="detalle.preciototal = detalle.preciounitario * detalle.cantidad; calcularImporte()">
                 </td>
                 <td>
                   {{detalle.moneda.simbolo}} {{detalle.preciototal | number : '1.2-2'}}
@@ -117,6 +117,16 @@
             </table>
           </div>
         </div>
+
+        <div class="pc-line-neg row box-line-negocio no-gutters justify-content-between align-items-center mt-3" style="background-color: antiquewhite;">
+          <div class="col">
+            <a (click)="calcularImporte()">CALCULAR IMPORTE TOTAL</a>
+          </div>
+          <div class="col-auto">
+            <strong style="font-size: 20px;">{{importe | number : '1.2-2'}}</strong>
+          </div>
+        </div>
+
         <div style="text-align: right" class="pt-3 pb-3">
           <button type="submit" class="btn btn-primary" [disabled]="!pedidoForm.form.valid" *ngIf="!pedido.id">Guardar</button>
           <button type="submit" class="btn btn-primary" [disabled]="!pedidoForm.form.valid" *ngIf="pedido.id">Actualizar</button>
