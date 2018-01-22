@@ -242,9 +242,13 @@ export class FormularioPedidoComponent implements OnInit {
   }
 
   llenarDatosParaEdicion(pedido: any) : void {
-    for(var i=0; i<pedido.detallePedidoList.length; i++){
-      let pmul = pedido.detallePedidoList[i].idproducto.productomedidaList.find(item => item.idunidadmedida.id === this.pedido.detallePedidoList[i].idunidad.id);
-      this.pedido.detallePedidoList[i].idunidad = pmul.idunidadmedida;
+    if(pedido.detallePedidoList){
+      for(var i=0; i<pedido.detallePedidoList.length; i++){
+        if(pedido.detallePedidoList[i].idproducto && pedido.detallePedidoList[i].idproducto.productomedidaList){
+          let pmul = pedido.detallePedidoList[i].idproducto.productomedidaList.find(item => item.idunidadmedida.id === this.pedido.detallePedidoList[i].idunidad.id);
+          this.pedido.detallePedidoList[i].idunidad = pmul.idunidadmedida;
+        }
+      }
     }
     let ocurrencia:Date = new Date(pedido.fechalimite);
     this.pedido.fechalimite = { year: ocurrencia.getFullYear(), month: ocurrencia.getMonth(), day: ocurrencia.getDate() };
