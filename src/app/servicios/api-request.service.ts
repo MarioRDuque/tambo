@@ -59,6 +59,7 @@ export class ApiRequestService {
     }
 
     get(url: string, urlParams?: URLSearchParams): Promise<any> {
+        this.verificarNoGuardados();
         let requestOptions = this.getRequestOptions(RequestMethod.Get, url, urlParams);
         return this.http.request(new Request(requestOptions))
             .toPromise()
@@ -67,11 +68,20 @@ export class ApiRequestService {
     }
 
     post(url: string, body: Object): Promise<any> {
+        this.verificarNoGuardados();
         let requestOptions = this.getRequestOptions(RequestMethod.Post, url, undefined, body);
         return this.http.request(new Request(requestOptions))
             .toPromise()
             .then(resp => resp.json())
             .catch(err => this.handleError(err));
+    }
+
+    postStorage(url: string, body: Object): Promise<any> {
+      let requestOptions = this.getRequestOptions(RequestMethod.Post, url, undefined, body);
+      return this.http.request(new Request(requestOptions))
+        .toPromise()
+        .then(resp => resp.json())
+        .catch(err => this.handleError(err));
     }
 
     reporte(url: string, body: Object): Promise<any> {
@@ -97,6 +107,25 @@ export class ApiRequestService {
             .then(resp => resp.json())
             .catch(err => this.handleError(err));
     }
+
+    verificarNoGuardados(){
+      let noGuardados = JSON.parse(localStorage.getItem("pedidosSinGuardar"));
+      if(noGuardados){
+        for(var i = 0; i<noGuardados.length; i++){
+          this.postStorage("pedidos",noGuardados[i])
+            .then(
+              jsonResp => {
+                noGuardados.splice(noGuardados[i],1);
+                localStorage.setItem("pedidosSinGuardar", JSON.stringify(noGuardados));
+              }
+            )
+            .catch(err => this.errorAlIntentarGuardar(err));
+        }
+      }
+      localStorage.setItem("pedidosSinGuardar", JSON.stringify(noGuardados));
+    }
+
+    errorAlIntentarGuardar(err){}
 
     handleError(error: any): Promise<any> {
       if (error.status === 401 || error.status === 403) {

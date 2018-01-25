@@ -1,9 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { Paginacion } from '../../entidades/entidad.paginacion';
 import { ToastrService } from 'ngx-toastr';
 import{ ModalConfirmacionComponent } from './../../componentes/modal-confirmacion.component';
 import { ApiRequestService } from '../../servicios/api-request.service';
+import { ReportService } from '../../servicios/report.service';
+import { AuthService } from '../../servicios/auth.service';
 
 @Component({
   selector: 'app-productos',
@@ -12,6 +14,7 @@ import { ApiRequestService } from '../../servicios/api-request.service';
 })
 export class ProductosComponent implements OnInit {
 
+  @ViewChild("productoDownload") productoDownload;
   @Input() isModalProducto;
   public page: number = 1;
   public paginacion:Paginacion;
@@ -42,6 +45,8 @@ export class ProductosComponent implements OnInit {
               public activeModal: NgbActiveModal,
               private apiRequest: ApiRequestService,
               private toastr: ToastrService,
+              public apiReport: ReportService,
+              public auth: AuthService,
               private modalService: NgbModal
             ) {
     this.paginacion = new Paginacion();
@@ -190,6 +195,36 @@ export class ProductosComponent implements OnInit {
         .catch(err => this.handleError(err));
     }
 
+  }
+
+  imprimirReporte(){
+    this.solicitando = true;
+    let params={
+      "codusu":this.auth.getUserName(),
+      "report":'rptProductos'
+    };
+    this.apiReport.post("reporte/generar",params)
+      .then(
+        data => {
+          if(data){
+            this.descargarArchivoPDF('application/pdf','rptDetalleBoleta.pdf',data);
+          }
+          this.solicitando = false;
+        }
+      )
+      .catch(err => this.handleError(err));
+  }
+
+  descargarArchivoPDF(tipoDocumento,nombreArchivo,data){
+    if(data){
+      var fileName = nombreArchivo;
+      var file = new Blob([data._body],{type: tipoDocumento });
+      var url = URL.createObjectURL(file);
+      this.productoDownload.nativeElement.href = url;
+      this.productoDownload.nativeElement.target = "_blank";
+      this.productoDownload.nativeElement.click();
+    }else{
+    }
   }
 
   traerParaEdicion(id){

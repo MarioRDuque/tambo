@@ -13,7 +13,7 @@
     <button *ngIf="isModalProducto" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
-    <button *ngIf="!isModalProducto" type="button" class="btn btn-primary" aria-label="Close" (click)="descargarProductos()">
+    <button *ngIf="!isModalProducto" type="button" class="btn btn-primary" aria-label="Close" (click)="imprimirReporte()">
       Generar Reporte
     </button>
   </div>
@@ -173,3 +173,7 @@
     <button type="button" class="btn btn-outline-dark" (click)="d()">Cancelar</button>
   </div>
 </ng-template>
+
+<div class="row justify-content-end">
+  <a href="" id="productoDownload" #productoDownload></a>
+</div>

@@ -29,6 +29,7 @@ const NOW = new Date();
 
 export class FormularioPedidoComponent implements OnInit {
 
+  pedidosSinGuardar : any = [];
   autocomplete: any;
   address: any = {};
   center: any;
@@ -197,7 +198,25 @@ export class FormularioPedidoComponent implements OnInit {
             this.toastr.error(respuesta.operacionMensaje, 'Error');
           }
       })
-      .catch(err => this.handleError(err));
+      .catch(err => this.semiGuardarPedido(err));
+  }
+
+  semiGuardarPedido(err){
+    if(err.status == 0 || err.status == 504){
+      this.solicitando = false;
+      this.pedidosSinGuardar = JSON.parse(localStorage.getItem("pedidosSinGuardar"));
+      if(this.pedidosSinGuardar && this.pedidosSinGuardar.length>0){
+        this.pedidosSinGuardar.push(this.pedido);
+      } else {
+        this.pedidosSinGuardar = [];
+        this.pedidosSinGuardar.push(this.pedido);
+      }
+      localStorage.setItem("pedidosSinGuardar",JSON.stringify(this.pedidosSinGuardar));
+      this.toastr.success("Pedido guardado en la meoria local. Espera una conexion a internet para trabajar normalmente.", "Informacion");
+      this.router.navigate(['./pedidos/lista/']);
+    } else {
+      this.handleError(err);
+    }
   }
 
   editarPedido(pedidoParam: any){
