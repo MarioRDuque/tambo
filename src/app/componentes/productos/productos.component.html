@@ -13,6 +13,9 @@
     <button *ngIf="isModalProducto" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
+    <button *ngIf="!isModalProducto" type="button" class="btn btn-primary" aria-label="Close" (click)="descargarProductos()">
+      Generar Reporte
+    </button>
   </div>
   <div class="modal-body card-bonito">
 
@@ -130,12 +133,12 @@
           </table>
         </div>
       </div>
-      <div class="text-center pt-3">
+      <div class="text-center pt-3" *ngIf="false">
         <label class="btn btn-default">
           <input class="btn btn-primary" type="file" name="file" [(ngModel)]="producto.file" (change)="selectFile($event)">
         </label>
       </div>
-      <img src="{{fileUpload}}" alt="{{fileUpload}}" style="max-width:350px"/>
+      <img src="{{fileUpload}}" *ngIf="false" alt="{{fileUpload}}" style="max-width:350px"/>
       <div style="text-align: right">
         <button *ngIf="!producto.id" type="submit" class="btn btn-primary" [disabled]="!productoForm.form.valid" (click)="onSubmit()">Guardar</button>
         <button *ngIf="producto.id" type="submit" class="btn btn-primary" [disabled]="!productoForm.form.valid" (click)="onSubmit()">Actualizar</button>
