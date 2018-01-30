@@ -90,7 +90,7 @@ export class ProductosComponent implements OnInit {
     this.modalService.open(content).result.then((result) => {
       let productoMedida = {
         "idunidadmedida":this.unidadSelect,
-        "precio":this.precio,
+        "precio":this.producto.precioventa*this.unidadSelect.cantidad,
         "estado":true,
         "idproducto":this.producto.id
       }
@@ -262,7 +262,12 @@ export class ProductosComponent implements OnInit {
   quitarMedida(obj):void{
     const modalRef = this.modalService.open(ModalConfirmacionComponent);
     modalRef.result.then((result) => {
-      this.eliminarMedida(obj);
+      if(obj && obj.id){
+        this.eliminarMedida(obj);
+      } else {
+        this.listaPM.splice(this.listaPM.indexOf(obj),1);
+        this.solicitando = false;
+      }
     }, (reason) => {
     });
   }

@@ -78,9 +78,13 @@
 
     <form #productoForm="ngForm" *ngIf="vistaFormulario && !solicitando">
       <div class="form-row">
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-10">
           <label for="nombre" class="col-form-label">Nombre <span class="text-primary">*</span></label>
           <input type="text" id="nombre"  name="nombre" class="form-control" placeholder="¿Cual es el nombre del producto?" [(ngModel)]="producto.nombre" maxlength="300" required>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="preciounitario" class="col-form-label">Precio Unitario</label>
+          <input type="number" id="preciounitario"  name="preciounitario" class="form-control" placeholder="Precio Unitario" [(ngModel)]="producto.precioventa">
         </div>
       </div>
       <div class="form-row">
