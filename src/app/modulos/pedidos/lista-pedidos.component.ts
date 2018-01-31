@@ -19,6 +19,8 @@ export class ListaPedidosComponent implements OnInit {
   public paginacion:Paginacion;
   public desde:NgbDateStruct;
   public hasta:NgbDateStruct;
+  public nombrec:string;
+  public dnic:string;
 
   public solicitando = false;
   public solicitudExitosa = false;
@@ -40,7 +42,9 @@ export class ListaPedidosComponent implements OnInit {
     this.page = 1;
     this.parametros = {
       "desde": new Date(this.desde ? this.desde.year+'/'+this.desde.month+'/'+this.desde.day : ""),
-      "hasta": new Date(this.hasta ? this.hasta.year+'/'+this.hasta.month+'/'+this.hasta.day : "")
+      "hasta": new Date(this.hasta ? this.hasta.year+'/'+this.hasta.month+'/'+this.hasta.day : ""),
+      "dni":this.dnic,
+      "nombre":this.nombrec
     };
     this.traerPedidos();
   }

@@ -20,6 +20,10 @@
       <p class="text-primary text-center pt-3" *ngIf="(!pedidos || pedidos.length === 0) && solicitudExitosa">No se encontraron resultados</p>
       <div class="form-row pt-3 pb-3" *ngIf="!vistaFormulario && !solicitando">
         <div class="input-group">
+          <input class="form-control" placeholder="Ingrese DNI para busqueda" name="dnic" [(ngModel)]="dnic">
+          <input class="form-control" placeholder="Ingrese Nombres para busqueda" name="nombrec" [(ngModel)]="nombrec">
+        </div>
+        <div class="input-group">
           <input class="form-control" placeholder="Desde(yyyy-mm-dd)" name="d" [(ngModel)]="desde" ngbDatepicker #d="ngbDatepicker">
           <button class="input-group-addon cursor-pointer" (click)="d.toggle()" type="button">
             <i class="material-icons">today</i>
