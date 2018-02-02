@@ -20,6 +20,7 @@ export class ClienteComponent implements OnInit {
 
   @Input() isModal;
   public page: number = 1;
+  public centrob: string;
   public paginacion:Paginacion;
   public solicitando = false;
   public vistaFormulario = false;
@@ -49,7 +50,6 @@ export class ClienteComponent implements OnInit {
   public distritos: any = [];
   public distritoSelect: any = {};
   public centros: any = [];
-
   autocomplete: any;
   address: any = {};
   center: any;
@@ -72,6 +72,8 @@ export class ClienteComponent implements OnInit {
     this.traerTipoDocs();
     let distritos = JSON.parse(localStorage.getItem("distritos"));
     distritos ? this.distritos = distritos : this.traerUbigeos('distrito',null);
+    let centros = JSON.parse(localStorage.getItem("centros"));
+    centros ? this.centros = centros : this.traerUbigeos('centro',1);
   }
 
   log(event, str) {
@@ -106,7 +108,8 @@ export class ClienteComponent implements OnInit {
     this.page = 1;
     this.parametros = {
       "docCliente":this.numdoc,
-      "nombre":this.nombre
+      "nombre":this.nombre,
+      "idubigeo":this.centrob
     };
     this.traerClientes();
   }

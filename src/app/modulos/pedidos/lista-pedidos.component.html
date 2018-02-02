@@ -22,6 +22,12 @@
         <div class="input-group">
           <input class="form-control" placeholder="Ingrese DNI para busqueda" name="dnic" [(ngModel)]="dnic">
           <input class="form-control" placeholder="Ingrese Nombres para busqueda" name="nombrec" [(ngModel)]="nombrec">
+          <select class="form-control" style="height: calc(2.5rem + 2px);" id="centrob" name="centrob" [(ngModel)]="centrob">
+            <option value="" selected > TODOS </option>
+            <option *ngFor="let centro of centros" [ngValue]="centro.id">
+              {{ centro.nombre }}
+            </option>
+          </select>
         </div>
         <div class="input-group">
           <input class="form-control" placeholder="Desde(yyyy-mm-dd)" name="d" [(ngModel)]="desde" ngbDatepicker #d="ngbDatepicker">

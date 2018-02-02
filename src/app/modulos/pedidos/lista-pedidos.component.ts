@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { NgbDatepickerConfig, NgbDateStruct, NgbDropdownConfig, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 import {I18n, CustomDatepickerI18n} from './../../servicios/datepicker-i18n';
 import { Paginacion } from '../../entidades/entidad.paginacion';
-import { PedidosService } from './servicios/pedidos.service'
+import { PedidosService } from './servicios/pedidos.service';
+import { ApiRequestService } from '../../servicios/api-request.service';
 
 @Component({
   selector: 'app-lista-pedidos',
@@ -15,13 +16,14 @@ export class ListaPedidosComponent implements OnInit {
 
   public languaje = 'es';
   public pedidos: any = [];
+  public centrob: string;
   public page: number = 1;
   public paginacion:Paginacion;
   public desde:NgbDateStruct;
   public hasta:NgbDateStruct;
   public nombrec:string;
   public dnic:string;
-
+  public centros: any = [];
   public solicitando = false;
   public solicitudExitosa = false;
   public mensajeForUser = '';
@@ -29,13 +31,16 @@ export class ListaPedidosComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private pedidosService: PedidosService
+    private pedidosService: PedidosService,
+    private apiRequest: ApiRequestService
   ) {
     this.paginacion = new Paginacion();
   }
 
   ngOnInit() {
     this.traerPedidos();
+    let centros = JSON.parse(localStorage.getItem("centros"));
+    centros ? this.centros = centros : this.traerUbigeos('centro',1);
   }
 
   busqueda(): void {
@@ -44,9 +49,26 @@ export class ListaPedidosComponent implements OnInit {
       "desde": new Date(this.desde ? this.desde.year+'/'+this.desde.month+'/'+this.desde.day : ""),
       "hasta": new Date(this.hasta ? this.hasta.year+'/'+this.hasta.month+'/'+this.hasta.day : ""),
       "dni":this.dnic,
-      "nombre":this.nombrec
+      "nombre":this.nombrec,
+      "idubigeo":this.centrob
     };
     this.traerPedidos();
+  }
+
+  traerUbigeos(nombre, padre) {
+    let centros = JSON.parse(localStorage.getItem("centros"));
+    if(centros){
+      this.centros = centros;
+    }
+    return this.apiRequest.post('ubigeo/listar', {padre:padre})
+      .then(
+        data => {
+          if(data && data.extraInfo){
+            this.centros = data.extraInfo;
+          }
+        }
+      )
+      .catch(err => this.handleError(err));
   }
 
   traerPedidos(parametros:any=this.parametros): void {
