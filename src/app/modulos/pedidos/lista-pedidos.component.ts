@@ -5,6 +5,7 @@ import {I18n, CustomDatepickerI18n} from './../../servicios/datepicker-i18n';
 import { Paginacion } from '../../entidades/entidad.paginacion';
 import { PedidosService } from './servicios/pedidos.service';
 import { ApiRequestService } from '../../servicios/api-request.service';
+import { AuthService } from '../../servicios/auth.service';
 
 @Component({
   selector: 'app-lista-pedidos',
@@ -32,7 +33,8 @@ export class ListaPedidosComponent implements OnInit {
   constructor(
     private router: Router,
     private pedidosService: PedidosService,
-    private apiRequest: ApiRequestService
+    private apiRequest: ApiRequestService,
+    private auth: AuthService
   ) {
     this.paginacion = new Paginacion();
   }
@@ -72,6 +74,8 @@ export class ListaPedidosComponent implements OnInit {
   }
 
   traerPedidos(parametros:any=this.parametros): void {
+    this.parametros.tipoUsuario=this.auth.getTipoUser();
+    this.parametros.usuario=this.auth.getUserName();
     this.solicitando = true;
     this.pedidosService.getLista(this.page, this.paginacion.cantidadPorPagina, parametros)
       .then(data => {

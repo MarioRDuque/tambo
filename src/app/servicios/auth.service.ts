@@ -15,6 +15,7 @@ export interface ObjetoJWT {
     userId:string;
     token:string;
     menus:any;
+    tipoUsuario: number;
 }
 
 export interface AuthRespuesta {
@@ -56,7 +57,8 @@ export class AuthService {
                         "user": {
                             "userId": jsonResp.item.usuarioId,
                             "token": jsonResp.item.token,
-                            "menus": jsonResp.item.menus
+                            "menus": jsonResp.item.menus,
+                            "tipoUsuario": jsonResp.item.tipoUsuario
                         }
                     };
                     this.almacenamiento.setItem(this.usuarioActualKey, JSON.stringify(authRespuesta.user));
@@ -91,6 +93,14 @@ export class AuthService {
             return objJWT.userId
         }
         return "no-user";
+    }
+
+    getTipoUser():number {
+      let objJWT: ObjetoJWT = JSON.parse(this.almacenamiento.getItem(this.usuarioActualKey));
+      if (objJWT !== null){
+        return objJWT.tipoUsuario;
+      }
+      return 0;
     }
 
     eliminarDataJWT() {

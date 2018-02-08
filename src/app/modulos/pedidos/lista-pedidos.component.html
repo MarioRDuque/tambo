@@ -54,6 +54,7 @@
                 <th>Fecha Pedido</th>
                 <th>Estado</th>
                 <th>Direccion</th>
+                <th>Registrado Por</th>
               </tr>
               </thead>
               <tbody>
@@ -64,6 +65,7 @@
                 <td>{{pedido.fechaPedido | date:"dd/MM/yyyy"}}</td>
                 <td>{{pedido.fechaEntrega ? "ENTREGADO" : "POR ENTREGAR"}}</td>
                 <td>{{pedido.direccion}}</td>
+                <td>{{pedido.usuariosave}}</td>
               </tr>
               </tbody>
             </table>

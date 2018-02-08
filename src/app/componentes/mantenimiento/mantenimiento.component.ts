@@ -7,8 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 import{ ModalConfirmacionComponent } from './../../componentes/modal-confirmacion.component';
 import { ApiRequestService } from '../../servicios/api-request.service';
 
-
-
 @Component({
   selector: 'app-mantenimiento',
   templateUrl: './mantenimiento.component.html',

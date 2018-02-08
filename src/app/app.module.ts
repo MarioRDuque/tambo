@@ -13,6 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRouterModule } from './app-routing.module';
 import { ComponentesModule } from './componentes/componentes.module';
 import { PedidosModule } from './modulos/pedidos/pedidos.module';
+import { UiSwitchModule } from 'angular2-ui-switch';
 
 import { AuthService } from './servicios/auth.service';
 import { ApiRequestService } from './servicios/api-request.service';
@@ -52,6 +53,7 @@ import { AppNoMenuComponent } from './componentes/app-no-menu.component';
     ComponentesModule,
     HttpModule,
     FormsModule,
+    UiSwitchModule,
     ReactiveFormsModule,
     PedidosModule,
     BrowserAnimationsModule,

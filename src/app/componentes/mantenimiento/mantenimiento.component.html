@@ -37,6 +37,7 @@
                             <th>Numero Doc.</th>
                             <th>Nombre</th>
                             <th>Tipo</th>
+                            <th>Estado</th>
                             <th style="width:30px;">Opciones</th>
                           </tr>
                           </thead>
@@ -46,6 +47,7 @@
                             <td>{{usuario.dni}}</td>
                             <td>{{usuario.nombre}} {{usuario.apellidos}}</td>
                             <td>{{usuario.tipousuario ? usuario.tipousuario.nombre : null}}</td>
+                            <td>{{usuario.estado ? 'HABILITADO' : 'INHABILITADO'}}</td>
                             <td style="padding-top: 0px; padding-bottom: 0px;">
                               <i class="material-icons mi-30 cursor-pointer text-danger" (click)="confirmarEliminacion(usuario, 'usuario')" title="eliminar">delete</i>
                               <i class="material-icons mi-30 cursor-pointer text-primary" (click)="traerParaEdicion(usuario.id, 'usuario')" title="editar">create</i>
@@ -71,10 +73,16 @@
                         <label for="login" class="col-form-label">Nombre de usuario </label>
                         <input type="text" id="login"  name="login" class="form-control" placeholder="Ingresa nombre de usuario" [(ngModel)]="usuario.userId" maxlength="90" required>
                       </div>
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-4">
                         <label class="col-form-label">DNI <span class="text-primary">*</span> </label>
                         <input type="number" id="dni" name="dni" class="form-control" placeholder="¿Cual es el numero de documento?" [(ngModel)]="usuario.dni"
                                min="0" max="99999999" required>
+                      </div>
+                      <div class="form-group col-md-2">
+                        <label class="col-form-label">Estado <span class="text-primary">*</span> </label>
+                        <div>
+                          <ui-switch [(ngModel)]="usuario.estado" name="estado"></ui-switch>
+                        </div>
                       </div>
                     </div>
                     <div class="form-row">

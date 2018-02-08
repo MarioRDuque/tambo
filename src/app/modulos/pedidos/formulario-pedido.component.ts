@@ -17,6 +17,7 @@ import{ ClienteComponent } from './../../componentes/cliente/cliente.component';
 import{ ProductosComponent } from './../../componentes/productos/productos.component';
 
 import { PedidosService } from './servicios/pedidos.service';
+import { AuthService } from '../../servicios/auth.service';
 
 const NOW = new Date();
 
@@ -63,7 +64,8 @@ export class FormularioPedidoComponent implements OnInit {
     private eventosService: PedidosService,
     private modalService: NgbModal,
     private ref: ChangeDetectorRef,
-    public sc: SourceCodeService
+    public sc: SourceCodeService,
+    public auth: AuthService
   ) {
     sc.getText('PlacesAutoCompleteComponent').subscribe(text => this.code = text);
   }
@@ -186,6 +188,7 @@ export class FormularioPedidoComponent implements OnInit {
   }
 
   guardarPedido(pedidoParam: any){
+    pedidoParam.usuariosave = this.auth.getUserName();
     this.eventosService.guardar(pedidoParam)
       .then(respuesta => {
           if(respuesta && respuesta.extraInfo){
@@ -220,6 +223,7 @@ export class FormularioPedidoComponent implements OnInit {
   }
 
   editarPedido(pedidoParam: any){
+    pedidoParam.usuarioupdate = this.auth.getUserName();
     this.eventosService.editar(pedidoParam)
       .then(respuesta => {
         if(respuesta !== undefined){
