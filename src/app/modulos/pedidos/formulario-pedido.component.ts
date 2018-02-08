@@ -279,7 +279,7 @@ export class FormularioPedidoComponent implements OnInit {
   }
 
   private llenarCampos(){
-    this.pedido.fechalimite = new Date(this.pedido.fechalimite.year,this.pedido.fechalimite.month,this.pedido.fechalimite.day);
+    this.pedido.fechalimite = new Date(this.pedido.fechalimite.year,this.pedido.fechalimite.month-1,this.pedido.fechalimite.day);
   }
 
   private limpiarCampos(){
