@@ -42,6 +42,14 @@
             <li>{{pedido.usuariosave}}</li>
           </div>
           <div class="mt-2">
+            <label><u><strong>Fecha de Pedido</strong></u></label>
+            <li>{{pedido.fechapedido | date:"dd/MM/yyyy"}}</li>
+          </div>
+          <div class="mt-2">
+            <label><u><strong>Fecha Limite de Entrega</strong></u></label>
+            <li>{{pedido.fechalimite | date:"dd/MM/yyyy"}}</li>
+          </div>
+          <div class="mt-2">
             <p>
               <ngui-map [center]="center">
 

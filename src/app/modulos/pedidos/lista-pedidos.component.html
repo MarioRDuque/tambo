@@ -51,7 +51,8 @@
                 <th>Código</th>
                 <th>Descripcion</th>
                 <th>Cliente</th>
-                <th>Fecha Pedido</th>
+                <th>Fec. Pedido</th>
+                <th>Fec. Limite Entrega</th>
                 <th>Estado</th>
                 <th>Direccion</th>
                 <th>Registrado Por</th>
@@ -63,6 +64,7 @@
                 <td>{{pedido.descripcion}}</td>
                 <td>{{pedido.cliente}}</td>
                 <td>{{pedido.fechaPedido | date:"dd/MM/yyyy"}}</td>
+                <td>{{pedido.fechaLimite | date:"dd/MM/yyyy"}}</td>
                 <td>{{pedido.fechaEntrega ? "ENTREGADO" : "POR ENTREGAR"}}</td>
                 <td>{{pedido.direccion}}</td>
                 <td>{{pedido.usuariosave}}</td>
