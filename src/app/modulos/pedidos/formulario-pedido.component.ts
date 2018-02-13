@@ -276,7 +276,8 @@ export class FormularioPedidoComponent implements OnInit {
       }
     }
     let ocurrencia:Date = new Date(pedido.fechalimite);
-    this.pedido.fechalimite = { year: ocurrencia.getFullYear(), month: ocurrencia.getMonth()+1, day: ocurrencia.getDay() };
+    ocurrencia.setDate(ocurrencia.getDate()+1);
+    this.pedido.fechalimite = { year: ocurrencia.getFullYear(), month: ocurrencia.getMonth()+1, day: ocurrencia.getDate() };
     this.cargando = false;
   }
 
