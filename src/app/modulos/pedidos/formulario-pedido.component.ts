@@ -224,6 +224,8 @@ export class FormularioPedidoComponent implements OnInit {
 
   editarPedido(pedidoParam: any){
     pedidoParam.usuarioupdate = this.auth.getUserName();
+    pedidoParam.fechapedido = new Date(pedidoParam.fechapedido);
+    pedidoParam.fechapedido.setDate(pedidoParam.fechapedido.getDate()+1);
     this.eventosService.editar(pedidoParam)
       .then(respuesta => {
         if(respuesta !== undefined){
